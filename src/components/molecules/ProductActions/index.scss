@@ -1,0 +1,189 @@
+@use "@/styles/abstracts/variables" as v;
+
+/**
+ * ProductActions Component Styles
+ * 
+ * Handles:
+ * - Quantity selector form with +/- buttons
+ * - Add-to-cart button with feedback animation
+ * - Responsive layout for mobile
+ */
+
+.product-overview__actions {
+  display: flex;
+  gap: 20px;
+  flex-wrap: nowrap;
+  --quantity-control-width: 170px;
+  --quantity-button-width: 44px;
+  --quantity-icon-width: 20px;
+  --quantity-icon-height: 20px;
+  --add-to-cart-width: 400px;
+
+  form {
+    flex: 0 0 var(--quantity-control-width);
+    width: var(--quantity-control-width);
+    height: 52px;
+    align-items: stretch;
+    background-color: #f0f0f0;
+    padding: 0 10px;
+    overflow: hidden;
+
+    input {
+      flex: 1 1 auto;
+      width: auto;
+      font-size: 16px;
+
+      &:disabled {
+        opacity: 0.65;
+      }
+    }
+
+    .quantity-button-minus,
+    .quantity-button-plus {
+      flex: 0 0 var(--quantity-button-width);
+      width: var(--quantity-button-width);
+      --icon-width: var(--quantity-icon-width);
+      --icon-height: var(--quantity-icon-height);
+    }
+
+    .quantity-button-minus--aligned .icon svg {
+      transform: translateY(-1px);
+    }
+  }
+
+  .add-to-cart-button {
+    flex: 0 0 var(--add-to-cart-width);
+    width: var(--add-to-cart-width);
+    height: 52px;
+    min-width: 0;
+    padding: 0;
+    white-space: nowrap;
+    transition:
+      transform 0.2s ease,
+      background-color 0.2s ease;
+
+    &:disabled {
+      cursor: not-allowed;
+      opacity: 0.65;
+      background-color: #333;
+    }
+
+    &:hover:not(:disabled) {
+      background-color: #333;
+    }
+
+    &.is-added {
+      animation: add-to-cart-feedback 0.26s ease;
+      background-color: #1f1f1f;
+    }
+  }
+}
+
+/**
+ * Add-to-cart button feedback animation
+ * Scale animation provides tactile feedback to user
+ */
+@keyframes add-to-cart-feedback {
+  0% {
+    transform: scale(1);
+  }
+
+  50% {
+    transform: scale(0.96);
+  }
+
+  100% {
+    transform: scale(1);
+  }
+}
+
+/**
+ * Smaller desktop responsive: Allow buttons to be flexible and avoid cramped sizing
+ */
+@media (max-width: 1239px) {
+  .product-overview__actions {
+    gap: 16px;
+    --quantity-control-width: 150px;
+
+    .add-to-cart-button {
+      flex: 1 1 auto;
+      width: auto;
+    }
+  }
+}
+
+/**
+ * Tablet responsive: Intermediate scaling retaining two-column action balance
+ */
+@media (max-width: 992px) {
+  .product-overview__actions {
+    font-size: 15px;
+    gap: 16px;
+    --quantity-control-width: 140px;
+    --quantity-button-width: 38px;
+    --quantity-icon-width: 18px;
+    --quantity-icon-height: 18px;
+
+    form {
+      flex: 0 0 var(--quantity-control-width);
+      width: var(--quantity-control-width);
+      height: 48px;
+    }
+
+    .quantity-button-minus,
+    .quantity-button-plus {
+      flex: 0 0 var(--quantity-button-width);
+      width: var(--quantity-button-width);
+      font-size: 15px;
+    }
+
+    .add-to-cart-button {
+      flex: 1 1 auto;
+      width: auto;
+      height: 48px;
+    }
+
+    form input {
+      font-size: 15px;
+    }
+  }
+}
+
+/**
+ * Mobile responsive: Reduce sizes and adjust layout
+ */
+@media (max-width: 768px) {
+  .product-overview__actions {
+    font-size: 14px;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    gap: 12px;
+    --quantity-control-width: 110px;
+    --quantity-button-width: 32px;
+    --quantity-icon-width: 15.6px;
+    --quantity-icon-height: 15.6px;
+
+    form {
+      flex: 0 0 var(--quantity-control-width);
+      width: var(--quantity-control-width);
+      height: 44px;
+    }
+
+    .quantity-button-minus,
+    .quantity-button-plus {
+      flex: 0 0 var(--quantity-button-width);
+      width: var(--quantity-button-width);
+      font-size: 14px;
+    }
+
+    .add-to-cart-button {
+      flex: 1 1 auto;
+      width: auto;
+      height: 44px;
+    }
+
+    form input {
+      font-size: 14px;
+    }
+  }
+}

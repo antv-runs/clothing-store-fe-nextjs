@@ -1,0 +1,116 @@
+@use "@/styles/abstracts/variables" as v;
+
+/**
+ * RelatedProductsSection - Section wrapper for related products carousel
+ * 
+ * Handles:
+ * - Section-level styling (heading, spacing, empty state)
+ * - Loading state for product cards
+ * - Skeleton placeholders while fetching data
+ * 
+ * NOTE: Slider/carousel styling is owned by ProductCardList component
+ */
+
+.other-products {
+  &__fallback {
+    margin-top: 20px;
+    padding: 24px 20px;
+    border: 1px solid v.$color-border;
+    border-radius: 20px;
+    text-align: center;
+    color: rgba(0, 0, 0, 0.65);
+  }
+
+  &__title {
+    font-size: 48px;
+    font-weight: 700;
+    text-align: center;
+    font-family: v.$font-family-display;
+  }
+}
+
+/**
+ * Related products loading state
+ * Reduces opacity to indicate disabled state
+ */
+.other-products--loading {
+  opacity: 0.85;
+  pointer-events: none;
+}
+
+/**
+ * Skeleton loading placeholders for product cards
+ * 
+ * Displays animated placeholder cards while fetching related products
+ */
+.other-products {
+  &__skeleton-card {
+    width: 295px;
+    flex: 0 0 auto;
+    pointer-events: none;
+  }
+
+  &__skeleton-image {
+    width: 100%;
+    min-height: 300px;
+    border-radius: 20px;
+    margin-bottom: 20px;
+  }
+
+  &__skeleton-line {
+    height: 18px;
+    width: 78%;
+    border-radius: 8px;
+    margin-bottom: 12px;
+
+    &--short {
+      width: 42px;
+      height: 14px;
+      margin-bottom: 0;
+    }
+  }
+
+  &__skeleton-rating {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 14px;
+  }
+
+  &__skeleton-circle {
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+  }
+
+  &__skeleton-pill {
+    height: 30px;
+    width: 130px;
+    border-radius: 999px;
+  }
+}
+
+/**
+ * Tablet responsive: Adjust section title sizing
+ */
+@media (max-width: 992px) {
+  .other-products {
+    &__title {
+      font-size: 40px;
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .other-products {
+    &__title {
+      font-size: 32px;
+      padding: 0 30px;
+      line-height: 1.125;
+    }
+
+    &__skeleton-card {
+      width: 240px;
+    }
+  }
+}

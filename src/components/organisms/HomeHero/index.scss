@@ -1,0 +1,329 @@
+@use "../../../styles/abstracts/variables" as v;
+
+.home-hero {
+  position: relative;
+  margin: 0 calc(-50vw + 50%);
+  padding: 0 calc(50vw - 50%);
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(420px, 560px);
+  gap: 24px;
+  align-items: stretch;
+  background-color: #f2f0f1;
+  overflow: hidden;
+
+  &__content {
+    padding: 88px 0;
+  }
+
+  &__title {
+    margin: 0;
+    font-size: 64px;
+    font-family: v.$font-family-display;
+  }
+
+  &__desc {
+    margin: 20px 0 0;
+    max-width: 550px;
+    color: v.$color-muted;
+    font-size: 16px;
+    line-height: 1.5;
+  }
+
+  &__cta {
+    margin-top: 25px;
+    min-width: 204px;
+  }
+
+  &__stats {
+    margin-top: 60px;
+    display: flex;
+    flex-wrap: nowrap;
+    align-items: center;
+    gap: 0;
+  }
+
+  &__stat {
+    flex: 0 0 auto;
+
+    h2 {
+      margin: 0 0 8px;
+      font-size: 40px;
+      line-height: 1;
+      font-weight: 700;
+    }
+
+    p {
+      margin: 0;
+      font-size: 16px;
+      color: v.$color-muted;
+      line-height: 1.3;
+    }
+  }
+
+  &__divider {
+    flex: 0 0 auto;
+    width: 1px;
+    height: 54px;
+    margin: 0 32px;
+    background-color: v.$color-border;
+  }
+
+  &__media {
+    position: relative;
+    min-height: 663px;
+    min-width: 0;
+    pointer-events: none;
+  }
+
+  &__sparkle {
+    position: absolute;
+    z-index: 2;
+    line-height: 0;
+  }
+
+  &__sparkle--left {
+    height: 56px;
+    width: 56px;
+    right: 535px;
+    bottom: 310px;
+  }
+
+  &__sparkle--right {
+    height: 104px;
+    width: 104px;
+    right: -18px;
+    top: 85px;
+  }
+
+  &__image-crop {
+    position: absolute;
+    right: -48px;
+    bottom: 0;
+    width: 600px;
+    height: 663px;
+    margin: 0;
+    overflow: visible;
+  }
+
+  &__image {
+    position: absolute;
+    right: 0;
+    bottom: -285px;
+    width: auto;
+    height: 150%;
+    max-width: none;
+    object-fit: contain;
+    object-position: right bottom;
+  }
+}
+
+@media (max-width: 1239px) {
+  .home-hero {
+    &__title {
+      font-size: 54px;
+    }
+
+    &__content {
+      padding: 64px 0;
+    }
+
+    &__stats {
+      margin-top: 40px;
+    }
+
+    &__divider {
+      margin: 0 20px;
+    }
+
+  }
+}
+
+// ── Stack to single-column at 1100px ─────────────────────────────────────────
+// The 2-column layout cannot be reliably fixed in 993–1100px: __image uses
+// height:150% and width:auto with no overflow constraint, so the rendered
+// image (~660px+ wide) bleeds into the content column regardless of crop sizing.
+// The existing stacked layout is the right solution — move it up to 1100px.
+// The 992px rule below remains intact for true tablets.
+@media (max-width: 1100px) {
+  .home-hero {
+    grid-template-columns: 1fr;
+
+    &__content {
+      padding: 54px 0 24px;
+    }
+
+    &__media {
+      min-height: 663px;
+    }
+
+    &__image-crop {
+      left: 50%;
+      right: auto;
+      transform: translateX(-50%);
+      width: 600px; // restore desktop dimensions — image is now centered safely
+      height: 663px;
+    }
+
+    &__image {
+      left: 50%;
+      right: auto;
+      transform: translateX(-50%);
+    }
+
+    &__sparkle--left {
+      left: calc(50% - 280px);
+      right: auto;
+    }
+
+    &__sparkle--right {
+      right: calc(50% - 280px);
+    }
+  }
+}
+
+
+@media (max-width: 992px) {
+  .home-hero {
+    grid-template-columns: 1fr;
+
+    &__content {
+      padding: 54px 0 24px;
+    }
+
+    &__media {
+      min-height: 663px;
+    }
+
+    &__image-crop {
+      left: 50%;
+      right: auto;
+      transform: translateX(-50%);
+    }
+
+    &__image {
+      left: 50%;
+      right: auto;
+      transform: translateX(-50%);
+    }
+
+    &__sparkle--left {
+      left: calc(50% - 280px);
+      right: auto;
+    }
+
+    &__sparkle--right {
+      right: calc(50% - 280px);
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .home-hero {
+    border-radius: 0;
+    margin-left: -16px;
+    margin-right: -16px;
+    gap: 0px;
+
+    &__content {
+      padding: 30px 0 0;
+    }
+
+    &__title {
+      font-size: 36px;
+
+      line-height: 0.94;
+    }
+
+    &__desc {
+      font-size: 14px;
+      margin-top: 15px;
+    }
+
+    &__cta {
+      margin-top: 15px;
+      width: 100%;
+      max-width: 358px;
+      height: 52px;
+      padding-left: 16px;
+      padding-right: 16px;
+      font-size: 16px;
+      margin-left: auto;
+      margin-right: auto;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    &__stats {
+      margin-top: 20px;
+      display: grid;
+      grid-template-columns: auto auto auto;
+      justify-content: center;
+      align-items: center;
+      column-gap: 0;
+      row-gap: 15px;
+    }
+
+    &__stat {
+      z-index: 1000;
+
+      h2 {
+        font-size: 24px;
+        margin-bottom: 0;
+      }
+
+      p {
+        font-size: 12px;
+      }
+
+      &--3 {
+        grid-column: 1 / -1;
+        justify-self: center;
+      }
+    }
+
+    &__divider {
+      margin: 0 27.5px;
+    }
+
+    &__divider--desktop-only {
+      display: none;
+    }
+
+    &__media {
+      min-height: 448px;
+    }
+
+    &__sparkle--left {
+      width: 44px;
+      height: 44px;
+      left: 10px;
+      right: auto;
+      bottom: 265px;
+    }
+
+    &__sparkle--right {
+      width: 76px;
+      height: 76px;
+      right: calc(50% - 170px);
+      top: 44px;
+    }
+
+    &__image-crop {
+      left: 50%;
+      right: auto;
+      bottom: 90px;
+      width: 420px;
+      height: 448px;
+      transform: translateX(-50%);
+    }
+
+    &__image {
+      left: 50%;
+      right: auto;
+      transform: translateX(-50%);
+    }
+  }
+}

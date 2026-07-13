@@ -1,0 +1,302 @@
+@use "@/styles/abstracts/variables" as v;
+@use "@/styles/abstracts/mixins" as m;
+
+.product-gallery {
+  display: flex;
+  gap: 14px;
+  max-width: 610px;
+  flex: 1;
+
+  img:not([src]) {
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  &__thumbnails {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-auto-rows: 167px;
+    gap: 14px;
+    max-height: 560px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    flex: 0 0 auto;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
+
+    &--empty {
+      display: none;
+    }
+
+    mask-image: none;
+    -webkit-mask-image: none;
+
+    &--scroll-bottom:not(.product-gallery__thumbnails--scroll-top) {
+      mask-image: linear-gradient(
+        to bottom,
+        #000 0%,
+        #000 calc(100% - 28px),
+        transparent 100%
+      );
+      -webkit-mask-image: linear-gradient(
+        to bottom,
+        #000 0%,
+        #000 calc(100% - 28px),
+        transparent 100%
+      );
+    }
+
+    &--scroll-top:not(.product-gallery__thumbnails--scroll-bottom) {
+      mask-image: linear-gradient(
+        to bottom,
+        transparent 0%,
+        #000 28px,
+        #000 100%
+      );
+      -webkit-mask-image: linear-gradient(
+        to bottom,
+        transparent 0%,
+        #000 28px,
+        #000 100%
+      );
+    }
+
+    &--scroll-top.product-gallery__thumbnails--scroll-bottom {
+      mask-image: linear-gradient(
+        to bottom,
+        transparent 0%,
+        #000 28px,
+        #000 calc(100% - 28px),
+        transparent 100%
+      );
+      -webkit-mask-image: linear-gradient(
+        to bottom,
+        transparent 0%,
+        #000 28px,
+        #000 calc(100% - 28px),
+        transparent 100%
+      );
+    }
+  }
+
+  &__thumb {
+    @include m.button-native-reset($transparent-bg: true, $padding-zero: true);
+
+    position: relative;
+    max-width: 152px;
+    max-height: 167px;
+    flex: 0 0 auto;
+    border-radius: 20px;
+    overflow: hidden;
+    border: 1px solid transparent;
+    box-sizing: border-box;
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr;
+    transition: border-color 0.2s ease;
+
+    &:hover {
+      border-color: rgba(0, 0, 0, 0.2);
+    }
+
+    &:focus-visible {
+      @include m.focus-ring($outline-offset: 2px, $border-radius: 20px);
+    }
+
+    &--active {
+      border-color: #000;
+    }
+  }
+
+  &__placeholder {
+    grid-column: 1;
+    grid-row: 1;
+    width: 100%;
+    height: 100%;
+    @include m.skeleton-shimmer;
+    transition: opacity 0.2s ease;
+    z-index: 1;
+
+    &--hidden {
+      opacity: 0;
+      visibility: hidden;
+    }
+  }
+
+  &__image {
+    grid-column: 1;
+    grid-row: 1;
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    cursor: pointer;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+    z-index: 2;
+
+    &--loaded {
+      opacity: 1;
+    }
+
+    &--error {
+      opacity: 0.45;
+    }
+  }
+
+  &__main {
+    position: relative;
+    flex: 1;
+    max-width: 444px;
+    max-height: 530px;
+    border-radius: 20px;
+    overflow: hidden;
+    background-color: #f0f0f0;
+  }
+
+  &__main-wrapper {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr;
+    overflow: hidden;
+    background-color: #f0f0f0;
+    border-radius: 20px;
+  }
+
+  &__main .product-gallery__main-image {
+    position: relative;
+    display: block;
+    width: 100%;
+    height: 100%;
+    min-height: 100%;
+    object-fit: cover;
+    object-position: center;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+    grid-column: 1;
+    grid-row: 1;
+    z-index: 2;
+
+    &--loaded {
+      opacity: 1;
+    }
+
+    &--error {
+      opacity: 0.4;
+    }
+  }
+
+  &__main-skeleton {
+    position: absolute;
+    inset: 0;
+    @include m.skeleton-shimmer;
+    border-radius: 20px;
+    grid-column: 1;
+    grid-row: 1;
+    z-index: 1;
+    transition: opacity 0.2s ease;
+    pointer-events: none;
+  }
+
+  @media (max-width: 1239px) and (min-width: 993px) {
+    min-width: 0;
+
+    &__thumbnails {
+      grid-auto-rows: 140px;
+    }
+
+    &__thumb {
+      max-width: 125px;
+      max-height: 140px;
+    }
+
+    &__main {
+      min-width: 0;
+      max-height: none;
+      aspect-ratio: 444 / 530;
+      height: auto;
+    }
+  }
+
+  @media (max-width: 992px) {
+    max-width: 100%;
+
+    &__thumbnails {
+      grid-auto-rows: 115px;
+      max-height: 500px;
+    }
+
+    &__thumb {
+      max-width: 105px;
+      max-height: 115px;
+    }
+
+    &__main {
+      max-width: 100%;
+      max-height: 500px;
+      aspect-ratio: 444 / 530;
+    }
+  }
+
+  @media (max-width: 768px) {
+    flex-direction: column-reverse;
+
+    &__thumbnails {
+      display: flex;
+      flex-direction: row;
+      gap: 12px;
+      flex-wrap: nowrap;
+      grid-template-columns: unset;
+      grid-auto-rows: unset;
+      max-height: none;
+      overflow-x: auto;
+      overflow-y: hidden;
+      mask-image: none;
+      -webkit-mask-image: none;
+      -webkit-overflow-scrolling: touch;
+      scroll-behavior: smooth;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+
+      &::-webkit-scrollbar {
+        display: none;
+      }
+    }
+
+    &__thumb {
+      flex: 0 0 112px;
+      width: auto;
+      height: auto;
+      max-width: none;
+      max-height: none;
+      aspect-ratio: 112 / 106;
+      box-sizing: border-box;
+    }
+
+    &__thumb--active {
+      border-color: #000;
+      box-shadow: inset 0 0 0 1px #000;
+    }
+
+    &__image,
+    &__placeholder {
+      width: 100%;
+      height: 100%;
+    }
+
+    &__main {
+      flex: none;
+      max-width: 100%;
+      max-height: none;
+      width: 100%;
+      aspect-ratio: 358 / 290;
+    }
+  }
+}

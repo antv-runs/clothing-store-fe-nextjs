@@ -1,0 +1,57 @@
+@use "../../../styles/abstracts/variables" as v;
+@use "../../../styles/abstracts/mixins" as m;
+
+.header-icon {
+  display: flex;
+  gap: 14px;
+  align-items: center;
+  flex: 0 0 auto;
+
+  &__cart-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+  }
+
+  &__cart-badge {
+    position: absolute;
+    top: -5px;
+    right: -8px;
+    background-color: v.$color-black;
+    color: white;
+    font-size: 10px;
+    font-weight: 600;
+    min-width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 1;
+    pointer-events: none;
+    padding: 0 4px;
+  }
+
+  &__cart,
+  &__profile {
+    color: v.$color-black;
+    flex-shrink: 0;
+    transition:
+      transform 0.15s cubic-bezier(0.2, 0, 0, 1),
+      opacity 0.15s ease;
+
+    @include m.icon-lift-hover(
+      $hover-opacity: 0.8,
+      $hover-selector: "&:hover:not(:disabled)",
+      $active-opacity: 1,
+      $active-selector: "&:active:not(:disabled)"
+    );
+  }
+}
+
+@media (max-width: 768px) {
+  .header-icon {
+    gap: 15px;
+    flex: 0 0 auto;
+  }
+}

@@ -1,0 +1,149 @@
+import clsx from "clsx";
+import Link from "next/link";
+import { Heading } from "@/components/atoms/Heading";
+import { Image } from "@/components/atoms/Image";
+import { Star } from "@/components/atoms/Star";
+import { Text } from "@/components/atoms/Text";
+import { ProductPrice } from "@/components/molecules/ProductPrice";
+import { DEFAULT_CURRENCY } from "@/const/pricing";
+import { buildProductDetailPath } from "@/routes/paths";
+import "./index.scss";
+
+type ProductCardData = {
+  id: string | number;
+  name: string;
+  thumbnail: string;
+  thumbnailAlt?: string | null;
+  rating: number;
+  pricing: {
+    current: number;
+    original?: number | null;
+    currency?: string;
+    discountPercent?: number | null;
+  };
+};
+
+type ProductCardProps = {
+  product: ProductCardData;
+  formatPrice: (amount: number, currency?: string) => string;
+  className?: string;
+  linkMode?: "inline" | "overlay";
+  imageLoaded?: boolean;
+  imageError?: boolean;
+  onImageLoad?: () => void;
+  onImageError?: () => void;
+};
+
+export const ProductCard: React.FC<ProductCardProps> = ({
+  product,
+  formatPrice,
+  className,
+  linkMode = "inline",
+  imageLoaded,
+  imageError,
+  onImageLoad,
+  onImageError,
+}) => {
+  const { id, name, thumbnail, thumbnailAlt, rating, pricing } = product;
+  const {
+    current: currentPrice,
+    original: originalPrice,
+    currency = DEFAULT_CURRENCY,
+    discountPercent,
+  } = pricing;
+
+  const isInlineLinkMode = linkMode === "inline";
+  const productPath = buildProductDetailPath(id);
+  const viewProductLabel = `View ${name}`;
+  const formattedRating = rating.toFixed(1);
+
+  const hasComparePrice =
+    originalPrice !== null &&
+    originalPrice !== undefined &&
+    originalPrice > currentPrice;
+
+  const cardClassName = clsx("product-card", className);
+  const productImage = (
+    <Image
+      src={thumbnail}
+      alt={thumbnailAlt || name}
+      renderWrapper={false}
+      imgClassName="product-card__image product-image"
+      isLoaded={imageLoaded}
+      isError={imageError}
+      loadedClassName="product-image--loaded is-loaded"
+      errorClassName="product-image--error is-error"
+      loading="lazy"
+      decoding="async"
+      fit="cover"
+      onLoad={onImageLoad}
+      onError={onImageError}
+    />
+  );
+
+  const imageContent = isInlineLinkMode ? (
+    <Link
+      className="product-card__image-link"
+      href={productPath}
+      aria-label={viewProductLabel}
+    >
+      {productImage}
+    </Link>
+  ) : (
+    <div className="product-card__image-link" aria-hidden="true">
+      {productImage}
+    </div>
+  );
+
+  const titleContent = isInlineLinkMode ? (
+    <Link href={productPath}>{name}</Link>
+  ) : (
+    name
+  );
+
+  return (
+    <article className={cardClassName}>
+      <div className="product-card__image-wrapper product-image-wrapper">
+        {imageContent}
+      </div>
+
+      <Heading as="h3" className="product-card__title" noOfLines={2}>
+        {titleContent}
+      </Heading>
+
+      <div
+        className="product-card__rating"
+        aria-label={`Rating ${formattedRating} out of 5`}
+      >
+        <span className="product-card__stars">
+          <Star
+            rating={rating}
+            className="product-card__star"
+            showEmpty={false}
+          />
+        </span>
+        <Text as="span">{formattedRating}/5</Text>
+      </div>
+
+      <ProductPrice
+        currentAmount={currentPrice}
+        originalAmount={hasComparePrice ? originalPrice : null}
+        discountPercent={discountPercent}
+        currency={currency}
+        formatPrice={formatPrice}
+        className="product-card__price"
+        currentClassName="product-card__price-current"
+        originalClassName="product-card__price-original"
+        discountClassName="product-card__price-badge"
+      />
+
+      {!isInlineLinkMode ? (
+        <Link
+          href={productPath}
+          className="product-card__overlay-link"
+          aria-label={viewProductLabel}
+        />
+      ) : null}
+    </article>
+  );
+};

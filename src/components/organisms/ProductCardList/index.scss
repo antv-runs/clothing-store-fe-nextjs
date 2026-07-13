@@ -1,0 +1,231 @@
+@use "@/styles/abstracts/variables" as v;
+@use "@/styles/abstracts/mixins" as *;
+
+.product-card-list {
+  --nav-icon-size: 50px;
+
+  // position: relative is now provided by Slider base styles (.slider)
+
+  &--loading {
+    // cursor: default and user-select: none on the viewport during loading
+    // are now provided by Slider base styles (.slider--loading .slider__viewport)
+  }
+
+  &__viewport {
+    // overflow-x, overflow-y, scrollbar-width, touch-action, cursor: grab,
+    // ::-webkit-scrollbar, and .is-dragging states are now in Slider/index.scss.
+    // Only product-card-list–specific viewport overrides remain here.
+  }
+
+  &__track {
+    display: flex;
+    width: max-content;
+    gap: 20px;
+    margin-top: 55px;
+    list-style: none;
+    padding: 0;
+    margin-bottom: 0;
+
+    &.is-animated {
+      transition: transform 0.5s ease-in-out;
+    }
+  }
+
+  &__item {
+    max-width: 295px;
+    flex: 0 0 auto;
+    @include button-native-reset;
+    transition: color 0.2s ease;
+
+    &:hover {
+      .product-card__title {
+        color: #ff4d4f;
+      }
+
+      .product-card__price-current {
+        color: #ff4d4f;
+      }
+    }
+
+    &--skeleton {
+      width: 295px;
+      max-width: 295px;
+      flex: 0 0 295px;
+    }
+  }
+
+  &__nav {
+    // position: absolute, z-index, top: 50%, transform are now in Slider/index.scss.
+    // Only product-card-list–specific nav styling remains here.
+    padding: 5px;
+    @include flex-center;
+    transition: opacity 0.3s ease;
+    opacity: 0.5;
+
+    .icon {
+      --icon-width: var(--nav-icon-size);
+      --icon-height: var(--nav-icon-size);
+    }
+
+    .iconContainer {
+      color: #000;
+      transition: color 0.25s ease;
+    }
+
+    &:hover .iconContainer {
+      color: #333;
+    }
+
+    &:hover {
+      opacity: 0.8;
+    }
+
+    &:disabled {
+      opacity: 0.2;
+      cursor: not-allowed;
+
+      &:hover {
+        opacity: 0.2;
+      }
+
+      .iconContainer {
+        color: #999;
+      }
+
+      &:hover .iconContainer {
+        color: #999;
+      }
+    }
+
+    &--prev {
+      left: -30px;
+    }
+
+    &--next {
+      right: -30px;
+    }
+  }
+
+  &__skeleton-title {
+    width: 82%;
+    height: 24px;
+  }
+
+  &__skeleton-stars {
+    width: 90px;
+    height: 16px;
+  }
+
+  &__skeleton-rating {
+    width: 40px;
+    height: 16px;
+  }
+
+  &__skeleton-price {
+    width: 110px;
+    height: 28px;
+  }
+}
+
+@media (max-width: 992px) {
+  .product-card-list {
+    --nav-icon-size: 44px;
+
+    &__viewport {
+      margin-right: -24px;
+    }
+
+    &__track {
+      margin-top: 48px;
+      gap: 18px;
+      padding-right: 24px;
+    }
+
+    &__item {
+      max-width: 250px;
+      width: 250px;
+
+      &--skeleton {
+        width: 250px;
+        max-width: 250px;
+        flex: 0 0 250px;
+      }
+    }
+
+    &__nav {
+      display: none;
+
+      &--prev {
+        left: -24px;
+      }
+
+      &--next {
+        right: -24px;
+      }
+    }
+
+    &__skeleton-title {
+      height: 22px;
+    }
+
+    &__skeleton-stars,
+    &__skeleton-rating {
+      height: 15px;
+    }
+
+    &__skeleton-price {
+      width: 100px;
+      height: 26px;
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .product-card-list {
+    --nav-icon-size: 40px;
+
+    &__viewport {
+      margin-right: -16px;
+    }
+
+    &__track {
+      margin-top: 40px;
+      gap: 16px;
+      scroll-behavior: smooth;
+      overscroll-behavior-x: contain;
+      padding-right: 16px;
+    }
+
+    &__item {
+      max-width: 198px;
+      flex: 0 0 auto;
+      width: 198px;
+    }
+
+    &__nav {
+      display: none;
+
+      &--prev {
+        left: -20px;
+      }
+
+      &--next {
+        right: -20px;
+      }
+    }
+
+    &__skeleton-title {
+      height: 20px;
+    }
+
+    &__skeleton-stars,
+    &__skeleton-rating {
+      height: 14px;
+    }
+
+    &__skeleton-price {
+      width: 88px;
+      height: 24px;
+    }
+  }
+}

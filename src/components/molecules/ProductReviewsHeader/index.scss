@@ -1,0 +1,64 @@
+@use "@/styles/abstracts/mixins" as m;
+
+.reviews {
+  &__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 24px;
+  }
+
+  &__title {
+    @include m.line-clamp(2);
+    display: inline-flex;
+    align-items: baseline;
+    gap: 8px;
+    flex: 1 1 auto;
+    min-width: 0;
+    font-size: 24px;
+    font-weight: 700;
+
+    span {
+      font-size: 16px;
+      font-weight: 400;
+      color: #999;
+    }
+  }
+}
+
+@media (max-width: 992px) {
+  .reviews {
+    &__header {
+      flex-wrap: wrap;
+      margin-bottom: 20px;
+      gap: 16px;
+    }
+
+    &__title {
+      font-size: 22px;
+
+      span {
+        font-size: 15px;
+      }
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .reviews {
+    &__header {
+      flex-wrap: nowrap;
+      gap: 8px;
+    }
+
+    &__title {
+      font-size: 20px;
+      flex-shrink: 1;
+
+      span {
+        font-size: 14px;
+      }
+    }
+  }
+}

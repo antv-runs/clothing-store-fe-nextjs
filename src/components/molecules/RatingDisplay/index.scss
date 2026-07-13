@@ -1,0 +1,122 @@
+@use "@/styles/abstracts/variables" as v;
+@use "@/styles/abstracts/mixins" as m;
+
+.product-info__rating {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 25px;
+
+  > div {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    line-height: 1;
+  }
+
+  &-text {
+    margin: 0;
+  }
+
+  p {
+    font-size: 16px;
+    font-weight: 400;
+
+    span {
+      color: #a9a9a9;
+    }
+  }
+
+  .rating-display__text {
+    font-size: 16px;
+    margin: 0;
+  }
+
+  .product-info__rating-text {
+    font-size: 16px;
+    margin: 0;
+  }
+}
+
+// RatingDisplay component styles
+.rating-display__stars {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  line-height: 1;
+}
+
+.rating-display__star__item {
+  display: inline-flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.rating-display__star {
+  display: block;
+  flex-shrink: 0;
+  width: 24.7px !important;
+  height: 24.7px !important;
+
+  path {
+    fill: #a9a9a9;
+    transition: fill 0.2s ease;
+  }
+
+  &--active path {
+    fill: #ffc633;
+  }
+
+  &[viewBox="0 0 12 23"] {
+    width: 11.75px !important;
+    height: 22.35px !important;
+  }
+}
+
+// Tablet responsive sizes
+@media (max-width: 992px) {
+  .rating-display__star {
+    width: 21.6px !important;
+    height: 21.6px !important;
+
+    &[viewBox="0 0 12 23"] {
+      width: 10.2px !important;
+      height: 19.4px !important;
+    }
+  }
+
+  .product-info__rating {
+    margin-bottom: 20px;
+    gap: 12px;
+  }
+
+  .product-info__rating .rating-display__text,
+  .product-info__rating .product-info__rating-text {
+    font-size: 15px;
+  }
+}
+
+// Mobile responsive sizes
+@media (max-width: 768px) {
+  .rating-display__star {
+    width: 18.6px !important;
+    height: 18.6px !important;
+
+    &[viewBox="0 0 12 23"] {
+      width: 8.8px !important;
+      height: 16.8px !important;
+    }
+  }
+
+  .product-info__rating {
+    margin-bottom: 15px;
+  }
+
+  .product-info__rating .rating-display__text {
+    font-size: 14px;
+  }
+
+  .product-info__rating .product-info__rating-text {
+    font-size: 14px;
+  }
+}

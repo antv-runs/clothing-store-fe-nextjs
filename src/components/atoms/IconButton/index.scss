@@ -1,0 +1,44 @@
+.icon-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+
+  &:disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+  }
+}
+
+// Default variant (backward compatible)
+.icon-button--default {
+  // Base styles already inherited from .icon-button
+}
+
+// Ghost variant: transparent icon button for carousel/navigation controls
+.icon-button--ghost {
+  background: transparent;
+  border: none;
+
+  &:focus-visible {
+    outline: 2px solid currentColor;
+    outline-offset: 2px;
+    border-radius: 4px;
+  }
+}
+
+// Circular variant: circular button with surface background for filters
+.icon-button--circular {
+  width: 48px;
+  height: 48px;
+  border-radius: 62px;
+  background-color: #f0f0f0;
+
+  &:focus-visible {
+    outline: 2px solid currentColor;
+    outline-offset: 2px;
+  }
+}
