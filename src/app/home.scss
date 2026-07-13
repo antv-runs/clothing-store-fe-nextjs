@@ -1,0 +1,60 @@
+@use "@/styles/abstracts/variables" as v;
+@use "@/styles/abstracts/mixins" as m;
+
+.btn {
+  @include m.button-base;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  white-space: nowrap;
+  padding: 12px 24px;
+  text-decoration: none;
+
+  &--primary {
+    background-color: v.$color-black;
+    color: v.$color-white;
+
+    @include m.primary-static-hover($hover-background-color: #1a1a1a);
+  }
+
+  &--light {
+    background-color: v.$color-white;
+    color: v.$color-black;
+
+    @include m.primary-static-hover($hover-background-color: #e0e0e0);
+  }
+
+  &--cta {
+    min-width: 210px;
+    min-height: 52px;
+    border-radius: v.$radius-pill;
+  }
+}
+
+.home-page {
+  margin-bottom: 80px;
+}
+
+.home-page__product-section {
+  padding-top: 80px;
+}
+
+.home-page__product-section--top-selling {
+  margin-top: 64px;
+  padding-top: 64px;
+}
+
+@media (max-width: 768px) {
+  .home-page {
+    margin-bottom: 50px;
+  }
+
+  .home-page__product-section {
+    padding-top: 50px;
+  }
+
+  .home-page__product-section--top-selling {
+    margin-top: 40px;
+    padding-top: 45px;
+  }
+}

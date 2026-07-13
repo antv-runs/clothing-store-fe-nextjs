@@ -1,3 +1,5 @@
+"use client";
+
 import React, { useRef, useEffect, useState, useCallback } from "react";
 import clsx from "clsx";
 import { IconButton } from "@/components/atoms/IconButton";

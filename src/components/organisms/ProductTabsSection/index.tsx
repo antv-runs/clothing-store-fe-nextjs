@@ -1,3 +1,5 @@
+"use client";
+
 import React, { useMemo, useState, useRef } from "react";
 import "./index.scss";
 import type { ListErrorKind } from "@/types/listState";

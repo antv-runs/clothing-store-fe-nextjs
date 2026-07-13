@@ -1,0 +1,68 @@
+"use client";
+
+import { useRouter } from "next/navigation";
+import { MainLayout } from "@/components/templates/MainLayout";
+import { Heading } from "@/components/atoms/Heading";
+import { Button } from "@/components/atoms/Button";
+import { Icon } from "@/components/atoms/Icon";
+import { ROUTES } from "@/routes/paths";
+import "./not-found.scss";
+
+export default function NotFoundPage() {
+  const router = useRouter();
+
+  const handleGoHome = () => {
+    router.push(ROUTES.HOME);
+  };
+
+  return (
+    <MainLayout>
+      <div className="container u-mt-25">
+        <section className="not-found-page" aria-label="Page not found">
+          <div className="not-found-page__content">
+            <Heading as="h1" className="not-found-page__code" aria-label="404">
+              <span className="not-found-page__digit">4</span>
+              <span className="not-found-page__zero-wrap">
+                <span className="not-found-page__zero">0</span>
+                <span
+                  className="not-found-page__sparkle not-found-page__sparkle--left"
+                  aria-hidden="true"
+                >
+                  <Icon
+                    svgName="icn_glitter"
+                    height="100%"
+                    width="100%"
+                    color="#000"
+                  />
+                </span>
+                <span
+                  className="not-found-page__sparkle not-found-page__sparkle--right"
+                  aria-hidden="true"
+                >
+                  <Icon
+                    svgName="icn_glitter"
+                    height="100%"
+                    width="100%"
+                    color="#000"
+                  />
+                </span>
+              </span>
+              <span className="not-found-page__digit">4</span>
+            </Heading>
+
+            <p className="not-found-page__message">Page not found</p>
+
+            <Button
+              className="not-found-page__action"
+              type="button"
+              variant="primary"
+              onClick={handleGoHome}
+            >
+              Go back to Home
+            </Button>
+          </div>
+        </section>
+      </div>
+    </MainLayout>
+  );
+}

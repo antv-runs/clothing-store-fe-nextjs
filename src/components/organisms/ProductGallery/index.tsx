@@ -1,3 +1,5 @@
+"use client";
+
 import React, { useState, useRef, useCallback } from "react";
 import clsx from "clsx";
 import { Image } from "@/components/atoms/Image";

@@ -13,14 +13,16 @@ const emitChange = () => {
 };
 
 // Multi-tab sync via storage event
-window.addEventListener("storage", (event) => {
-  if (event.key === CART_STORAGE_KEY || event.key === null) {
-    // We reload state from localStorage
-    cart = readStoredCartRows();
-    // Notify React that the store has changed
-    subscribers.forEach((callback) => callback());
-  }
-});
+if (typeof window !== "undefined") {
+  window.addEventListener("storage", (event) => {
+    if (event.key === CART_STORAGE_KEY || event.key === null) {
+      // We reload state from localStorage
+      cart = readStoredCartRows();
+      // Notify React that the store has changed
+      subscribers.forEach((callback) => callback());
+    }
+  });
+}
 
 export const cartStore = {
   subscribe(callback: () => void) {

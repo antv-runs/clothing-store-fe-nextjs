@@ -1,8 +1,14 @@
 import { useSyncExternalStore, useCallback } from "react";
 import { cartStore } from "@/utils/cartStore";
 
+const getServerSnapshot = () => [];
+
 export const useCart = () => {
-  const items = useSyncExternalStore(cartStore.subscribe, cartStore.getSnapshot);
+  const items = useSyncExternalStore(
+    cartStore.subscribe,
+    cartStore.getSnapshot,
+    getServerSnapshot
+  );
 
   const totalCount = items.reduce((acc, item) => acc + item.quantity, 0);
 

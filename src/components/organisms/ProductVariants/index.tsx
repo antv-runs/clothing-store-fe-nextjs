@@ -1,3 +1,5 @@
+"use client";
+
 import React, { useState, useEffect, useCallback } from "react";
 import type { ProductVariants as ProductVariantsData } from "@/types/product";
 import { Text } from "@/components/atoms/Text";

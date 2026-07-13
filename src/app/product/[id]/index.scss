@@ -1,0 +1,217 @@
+@use "@/styles/abstracts/variables" as v;
+@use "@/styles/abstracts/mixins" as m;
+
+.product-overview {
+  margin-bottom: 75px;
+}
+
+/**
+ * Two-column layout container
+ * Places gallery on left and product info on right
+ */
+.product-overview__details {
+  display: flex;
+  gap: 40px;
+}
+
+/**
+ * Product info column wrapper
+ * Right-side container for product information
+ */
+.product-info {
+  flex: 1;
+  min-width: 0;
+  max-width: 590px;
+}
+
+.product-detail-page {
+  &__local-fallback {
+    min-height: 240px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 20px;
+    color: rgba(0, 0, 0, 0.65);
+  }
+
+  &__tabs-fallback {
+    @include m.panel;
+    padding: 40px;
+    margin: 40px 0;
+    text-align: center;
+    color: v.$color-muted;
+  }
+
+  &__modal-fallback {
+    position: fixed;
+    left: 50%;
+    bottom: 20px;
+    transform: translateX(-50%);
+    z-index: 1001;
+    margin: 0;
+    padding: 10px 14px;
+    background-color: #fff;
+    border: 1px solid v.$color-border;
+    border-radius: 999px;
+    color: rgba(0, 0, 0, 0.8);
+    font-size: 14px;
+    line-height: 1.3;
+  }
+
+  .review-card__header--verified::after {
+    width: 19.5px;
+    height: 19.5px;
+    background-size: 19.5px 19.5px;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+
+  .review-card__star {
+    width: 22.58px;
+    height: 22.58px;
+  }
+}
+
+/**
+ * Screen reader only utility class
+ * Hides visual content while keeping it accessible to screen readers
+ */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+/**
+ * Smaller desktop responsive: Scale down column gaps
+ */
+@media (max-width: 1239px) {
+  .product-overview {
+    &__details {
+      gap: 30px;
+    }
+  }
+}
+
+/**
+ * Tablet responsive: Stack columns vertically
+ */
+@media (max-width: 992px) {
+  .product-overview {
+    &__details {
+      flex-direction: column;
+    }
+  }
+
+  .product-info {
+    margin-left: 0;
+    max-width: 100%;
+  }
+
+  .product-overview {
+    &__images {
+      max-width: 100%;
+    }
+  }
+}
+
+/**
+ * Mobile responsive: Adjust spacing and sizing
+ */
+@media (max-width: 768px) {
+  .product-overview {
+    margin-bottom: 40px;
+
+    &__details {
+      gap: 24px;
+    }
+  }
+
+  .product-info {
+    padding-left: 0;
+  }
+
+  .product-detail-page {
+    &__local-fallback {
+      min-height: 180px;
+      font-size: 14px;
+    }
+
+    &__modal-fallback {
+      width: calc(100% - 32px);
+      max-width: 360px;
+      text-align: center;
+      bottom: 16px;
+    }
+
+    .reviews__list {
+      gap: 14px;
+    }
+
+    .reviews__item.review-card {
+      min-height: 0;
+      height: fit-content;
+    }
+
+    .review-card {
+      padding: 24px;
+    }
+
+    .review-card__meta {
+      margin-bottom: 12px;
+    }
+
+    .review-card__star {
+      width: 19.18px;
+      height: 19.18px;
+    }
+
+    .review-card__header {
+      font-size: 16px;
+      line-height: 1.2;
+      margin-bottom: 10px;
+    }
+
+    .review-card__header--verified::after {
+      width: 15.4px;
+      height: 15.4px;
+      background-size: 15.4px 15.4px;
+    }
+
+    .review-card__content {
+      @include m.line-clamp(5);
+      font-size: 14px;
+      line-height: 1.45;
+      min-height: fit-content;
+      margin-bottom: 12px;
+      padding-right: 0;
+    }
+
+    .review-card__footer {
+      font-size: 13px;
+    }
+
+    .breadcrumb__list.u-mb-40 {
+      margin-bottom: 20px !important;
+    }
+
+    .other-products.u-mb-85 {
+      margin-bottom: 50px !important;
+    }
+  }
+}
+
+/**
+ * Extra small screens responsive: Stack action buttons vertically
+ */
+@media (max-width: 360px) {
+  // Media query section would be minimal here
+  // Most mobile styling is handled by child components
+}

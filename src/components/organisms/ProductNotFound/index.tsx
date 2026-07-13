@@ -1,3 +1,5 @@
+"use client";
+
 import { Text } from "@/components/atoms/Text";
 import { Button } from "@/components/atoms/Button";
 import "./index.scss";

@@ -1,3 +1,5 @@
+"use client";
+
 import "./index.scss";
 import clsx from "clsx";
 import {

@@ -1,3 +1,5 @@
+"use client";
+
 import React, { useState } from "react";
 import "./index.scss";
 import { ProductCardList } from "@/components/organisms/ProductCardList";
