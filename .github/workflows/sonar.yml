@@ -41,5 +41,5 @@ jobs:
             -Dsonar.projectKey=clothing-store-nextjs
             -Dsonar.projectName=clothing-store-nextjs
             -Dsonar.sourceEncoding=UTF-8
-            -Dsonar.sources=app
+            -Dsonar.sources=src
             -Dsonar.exclusions=**/node_modules/**,**/.next/**,**/coverage/**,public/**
