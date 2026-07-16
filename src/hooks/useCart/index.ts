@@ -1,7 +1,10 @@
 import { useSyncExternalStore, useCallback } from "react";
 import { cartStore } from "@/utils/cartStore";
 
-const getServerSnapshot = () => [];
+import type { CartRow } from "@/types/cart";
+
+const SERVER_SNAPSHOT: CartRow[] = [];
+const getServerSnapshot = () => SERVER_SNAPSHOT;
 
 export const useCart = () => {
   const items = useSyncExternalStore(
