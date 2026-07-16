@@ -77,7 +77,7 @@ export const mapApiErrorToListErrorKind = (error: unknown): ListErrorKind => {
     return LIST_ERROR_KIND.MALFORMED_DATA;
   }
 
-  if (!navigator.onLine) {
+  if (typeof window !== 'undefined' && !navigator.onLine) {
     return LIST_ERROR_KIND.NETWORK;
   }
 

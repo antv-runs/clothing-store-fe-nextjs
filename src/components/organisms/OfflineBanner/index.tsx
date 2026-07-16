@@ -8,7 +8,7 @@ import "./index.scss";
  * loses internet connectivity. Automatically hides when back online.
  */
 export const OfflineBanner: React.FC = () => {
-  const [isOffline, setIsOffline] = useState(!navigator.onLine);
+  const [isOffline, setIsOffline] = useState(() => typeof window !== 'undefined' ? !navigator.onLine : false);
   const [showBackOnline, setShowBackOnline] = useState(false);
 
   useEffect(() => {
