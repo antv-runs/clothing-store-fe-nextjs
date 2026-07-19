@@ -50,11 +50,10 @@ export const Button = ({
         height: buttonElement.offsetHeight,
       };
 
-      setStableSize((currentSize) => {
+      setStableSize((currentSize: { width: number; height: number } | null) => {
         if (
-          currentSize &&
-          currentSize.width === nextSize.width &&
-          currentSize.height === nextSize.height
+          currentSize?.width === nextSize.width &&
+          currentSize?.height === nextSize.height
         ) {
           return currentSize;
         }

@@ -9,7 +9,7 @@ export async function getCategories(
   params: GetCategoriesParams = {},
 ): Promise<CategoryListResult> {
   const queryStr = buildQueryString(params).toString();
-  const url = `/api/categories${queryStr ? `?${queryStr}` : ""}`;
+  const url = queryStr ? `/api/categories?${queryStr}` : "/api/categories";
   const res = await get<PaginatedApiResponse<ApiCategory>>(url);
   const {
     data: apiCategories,

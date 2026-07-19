@@ -14,9 +14,7 @@
 
   margin-top: 85px;
 
-  .review-card__content {
-    padding-right: 0;
-  }
+
 
   &__head {
     display: flex;
@@ -160,6 +158,7 @@
     font-size: 16px;
     min-height: 0;
     margin-bottom: 0;
+    padding-right: 0;
   }
 
   .review-card__header {

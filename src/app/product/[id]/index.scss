@@ -108,17 +108,15 @@
     &__details {
       flex-direction: column;
     }
+
+    &__images {
+      max-width: 100%;
+    }
   }
 
   .product-info {
     margin-left: 0;
     max-width: 100%;
-  }
-
-  .product-overview {
-    &__images {
-      max-width: 100%;
-    }
   }
 }
 

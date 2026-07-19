@@ -16,7 +16,7 @@ export async function getProducts(
   params: GetProductsParams = {},
 ): Promise<ProductListResult> {
   const queryStr = buildQueryString(params).toString();
-  const url = `/api/products${queryStr ? `?${queryStr}` : ""}`;
+  const url = queryStr ? `/api/products?${queryStr}` : "/api/products";
   const res = await get<PaginatedApiResponse<ApiProduct>>(url);
   const {
     data: apiProducts,

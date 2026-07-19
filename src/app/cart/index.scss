@@ -3,9 +3,7 @@
 
 .cart-page {
   margin-bottom: 80px;
-}
 
-.cart-page {
   &__breadcrumb {
     margin-bottom: 40px;
   }
@@ -24,6 +22,7 @@
     align-items: start;
   }
 }
+
 
 .cart-empty {
   min-height: 60vh;

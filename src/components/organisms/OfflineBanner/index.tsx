@@ -8,7 +8,7 @@ import "./index.scss";
  * loses internet connectivity. Automatically hides when back online.
  */
 export const OfflineBanner: React.FC = () => {
-  const [isOffline, setIsOffline] = useState(() => typeof window !== 'undefined' ? !navigator.onLine : false);
+  const [isOffline, setIsOffline] = useState(() => typeof globalThis.window === "undefined" ? false : !globalThis.navigator.onLine);
   const [showBackOnline, setShowBackOnline] = useState(false);
 
   useEffect(() => {
@@ -22,12 +22,12 @@ export const OfflineBanner: React.FC = () => {
       setShowBackOnline(true);
     };
 
-    window.addEventListener("offline", handleOffline);
-    window.addEventListener("online", handleOnline);
+    globalThis.window?.addEventListener("offline", handleOffline);
+    globalThis.window?.addEventListener("online", handleOnline);
 
     return () => {
-      window.removeEventListener("offline", handleOffline);
-      window.removeEventListener("online", handleOnline);
+      globalThis.window?.removeEventListener("offline", handleOffline);
+      globalThis.window?.removeEventListener("online", handleOnline);
     };
   }, []);
 

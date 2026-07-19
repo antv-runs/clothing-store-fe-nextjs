@@ -13,8 +13,8 @@ const emitChange = () => {
 };
 
 // Multi-tab sync via storage event
-if (typeof window !== "undefined") {
-  window.addEventListener("storage", (event) => {
+if (typeof globalThis.window !== "undefined") {
+  globalThis.window.addEventListener("storage", (event) => {
     if (event.key === CART_STORAGE_KEY || event.key === null) {
       // We reload state from localStorage
       cart = readStoredCartRows();

@@ -33,7 +33,8 @@ export async function getReviewsByProductId(
     ...(rating !== null && { rating }),
   };
   const queryStr = buildQueryString(params).toString();
-  const url = `/api/products/${encodeURIComponent(normalizedProductId)}/reviews${queryStr ? `?${queryStr}` : ""}`;
+  const baseUrl = `/api/products/${encodeURIComponent(normalizedProductId)}/reviews`;
+  const url = queryStr ? `${baseUrl}?${queryStr}` : baseUrl;
   const res = await get<PaginatedApiResponse<ApiReview>>(url);
   const {
     data: apiReviews,

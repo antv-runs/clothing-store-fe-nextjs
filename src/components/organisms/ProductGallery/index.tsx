@@ -287,10 +287,9 @@ export const ProductGallery: React.FC<ProductGalleryProps> = ({
         <div className="product-gallery__main-wrapper">
           {/* Skeleton placeholder while loading */}
           {!mainImageLoaded && !mainImageError && (
-            <div
+            <output
               className="product-gallery__main-skeleton"
               aria-hidden="true"
-              role="status"
               aria-label="Loading image"
             />
           )}

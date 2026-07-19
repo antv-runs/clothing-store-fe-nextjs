@@ -8,9 +8,9 @@
   min-height: 100%;
 
   &__image-wrapper {
-    width: 295px;
-    height: 298px;
+    max-width: 295px;
     width: 100%;
+    height: 298px;
     display: grid;
     grid-template-columns: 1fr;
     grid-template-rows: 1fr;

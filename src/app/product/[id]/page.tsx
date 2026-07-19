@@ -181,15 +181,15 @@ export default function ProductDetailPage() {
   };
 
   const handleDecreaseQuantity = () => {
-    setQuantity((prev) => Math.max(DEFAULT_QUANTITY, prev - 1));
+    setQuantity((prev: number) => Math.max(DEFAULT_QUANTITY, prev - 1));
   };
 
   const handleIncreaseQuantity = () => {
-    setQuantity((prev) => prev + 1);
+    setQuantity((prev: number) => prev + 1);
   };
 
   const handleQuantityChange = (value: string) => {
-    const sanitized = value.replace(/[^0-9]/g, "");
+    const sanitized = value.replace(/\D/g, "");
     setQuantity(normalizeQuantity(sanitized || DEFAULT_QUANTITY));
   };
 
@@ -302,12 +302,12 @@ export default function ProductDetailPage() {
                   <div className="product-gallery__thumbnails product-gallery__thumbnails--empty" />
                   <div className="product-gallery__main">
                     <div className="product-gallery__main-wrapper">
-                      <div
+                      <output
                         className="product-detail-page__local-fallback"
-                        role="status"
+                        style={{ display: "flex" }}
                       >
                         Product gallery is temporarily unavailable.
-                      </div>
+                      </output>
                     </div>
                   </div>
                 </div>
@@ -346,9 +346,12 @@ export default function ProductDetailPage() {
         <ErrorBoundary
           resetKeys={[product.id]}
           fallback={
-            <div className="product-detail-page__tabs-fallback" role="status">
+            <output
+              className="product-detail-page__tabs-fallback"
+              style={{ display: "block" }}
+            >
               Product details and reviews are temporarily unavailable.
-            </div>
+            </output>
           }
         >
           <ProductTabsSection
@@ -386,9 +389,12 @@ export default function ProductDetailPage() {
         <ErrorBoundary
           resetKeys={[isWriteReviewModalOpen, product.id]}
           fallback={
-            <p className="product-detail-page__modal-fallback" role="status">
+            <output
+              className="product-detail-page__modal-fallback"
+              style={{ display: "block" }}
+            >
               Review form is temporarily unavailable.
-            </p>
+            </output>
           }
         >
           <WriteReviewModal

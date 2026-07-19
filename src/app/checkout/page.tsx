@@ -174,6 +174,67 @@ export default function CheckoutPage() {
     }
   };
 
+  const renderContent = () => {
+    if (submitStatus === "success") {
+      return (
+        <div className="checkout-page__status">
+          <Heading as="h2" className="checkout-page__status-title">
+            Order Placed Successfully!
+          </Heading>
+          <p
+            className="checkout-page__status-message checkout-page__message checkout-page__message--success"
+            role="status"
+            aria-live="polite"
+          >
+            {successMessage}
+          </p>
+          <Button
+            className="checkout-page__status-btn"
+            type="button"
+            variant="primary"
+            onClick={() => router.push(ROUTES.HOME)}
+          >
+            Back to Home
+          </Button>
+        </div>
+      );
+    }
+
+    if (hasError) {
+      return (
+        <RetryState
+          message="We couldn't securely load your checkout data right now."
+          onRetry={retryHydration}
+          isRetrying={isRetryingHydration}
+        />
+      );
+    }
+
+    if (isLoading) {
+      return <CheckoutPageSkeleton />;
+    }
+
+    if (isEmpty) {
+      return null;
+    }
+
+    return (
+      <div className="checkout-page__layout">
+        <CheckoutForm
+          onSubmit={handleCheckoutSubmit}
+          isSubmitting={isSubmittingOrder}
+          serverErrors={serverErrors}
+        />
+
+        <CheckoutSummaryPanel
+          items={cartItems}
+          summary={summary}
+          formatPrice={formatPrice}
+        />
+      </div>
+    );
+  };
+
   return (
     <MainLayout>
       <div className="container u-mt-25">
@@ -187,50 +248,7 @@ export default function CheckoutPage() {
             Checkout
           </Heading>
 
-          {submitStatus === "success" ? (
-            <div className="checkout-page__status">
-              <Heading as="h2" className="checkout-page__status-title">
-                Order Placed Successfully!
-              </Heading>
-              <p
-                className="checkout-page__status-message checkout-page__message checkout-page__message--success"
-                role="status"
-                aria-live="polite"
-              >
-                {successMessage}
-              </p>
-              <Button
-                className="checkout-page__status-btn"
-                type="button"
-                variant="primary"
-                onClick={() => router.push(ROUTES.HOME)}
-              >
-                Back to Home
-              </Button>
-            </div>
-          ) : hasError ? (
-            <RetryState
-              message="We couldn't securely load your checkout data right now."
-              onRetry={retryHydration}
-              isRetrying={isRetryingHydration}
-            />
-          ) : isLoading && !hasError ? (
-            <CheckoutPageSkeleton />
-          ) : isEmpty ? null : (
-            <div className="checkout-page__layout">
-              <CheckoutForm
-                onSubmit={handleCheckoutSubmit}
-                isSubmitting={isSubmittingOrder}
-                serverErrors={serverErrors}
-              />
-
-              <CheckoutSummaryPanel
-                items={cartItems}
-                summary={summary}
-                formatPrice={formatPrice}
-              />
-            </div>
-          )}
+          {renderContent()}
         </section>
       </div>
     </MainLayout>
