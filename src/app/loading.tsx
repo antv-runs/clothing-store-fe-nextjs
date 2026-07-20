@@ -4,52 +4,35 @@ import { HomeBrands } from "@/components/organisms/HomeBrands";
 import { HomeProductSection } from "@/components/organisms/HomeProductSection";
 import { HomeStyleGrid } from "@/components/organisms/HomeStyleGrid";
 import { HomeReviews } from "@/components/organisms/HomeReviews";
-import {
-  getHomeNewArrivals,
-  getHomeTopSelling,
-  getHomeReviews,
-} from "@/api/server/home";
 import "./home.scss";
 
-export default async function Home() {
-  const [newArrivals, topSelling, reviews] = await Promise.all([
-    getHomeNewArrivals().catch(() => []),
-    getHomeTopSelling().catch(() => []),
-    getHomeReviews().catch(() => []),
-  ]);
-
+export default function HomeLoading() {
   return (
     <MainLayout>
       <div className="container">
-        <section className="home-page" aria-label="Homepage">
+        <section className="home-page" aria-label="Homepage Loading">
           <HomeHero />
           <HomeBrands />
 
           <HomeProductSection
             title="NEW ARRIVALS"
-            productsList={newArrivals}
+            productsList={[]}
             className="home-page__product-section home-page__product-section--new-arrivals"
-            isLoading={false}
-            isEmpty={newArrivals.length === 0}
-            emptyMessage="No new arrivals available right now."
-            skeletonCount={4}
+            isLoading={true}
           />
 
           <HomeProductSection
             title="TOP SELLING"
-            productsList={topSelling}
+            productsList={[]}
             className="home-page__product-section home-page__product-section--top-selling"
             withTopBorder
-            isLoading={false}
-            isEmpty={topSelling.length === 0}
-            emptyMessage="No top selling products available right now."
-            skeletonCount={4}
+            isLoading={true}
           />
 
           <HomeStyleGrid />
           <HomeReviews
-            reviews={reviews}
-            isLoading={false}
+            reviews={[]}
+            isLoading={true}
           />
         </section>
       </div>

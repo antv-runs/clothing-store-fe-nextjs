@@ -7,7 +7,7 @@ import {
 import type { HttpClientOptions } from "@/types/common";
 import { handleApiError } from "@/utils/apiError";
 
-const BASE_URL = "https://api.vanannek.blog";
+const BASE_URL = process.env.NEXT_PUBLIC_API_URL || "https://api.vanannek.blog";
 // const BASE_URL = "http://localhost:3456";
 
 const httpClient = axios.create({
@@ -41,11 +41,13 @@ httpClient.interceptors.response.use(
           lastGlobalErrorTime = now;
           const message = API_ERROR_MESSAGES[normalizedError.code];
 
-          window.dispatchEvent(
-            new CustomEvent("global-api-error", {
-              detail: { message },
-            }),
-          );
+          if (typeof window !== "undefined") {
+            window.dispatchEvent(
+              new CustomEvent("global-api-error", {
+                detail: { message },
+              }),
+            );
+          }
         }
       }
     }

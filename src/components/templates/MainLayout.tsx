@@ -8,14 +8,12 @@ import { Header } from "@/components/organisms/Header";
 import { Footer } from "@/components/organisms/Footer";
 import { Spinner } from "@/components/atoms/Spinner";
 import { OfflineBanner } from "@/components/organisms/OfflineBanner";
-import { useScrollToTop } from "@/hooks/useScrollToTop";
+import { ScrollToTop } from "@/components/atoms/ScrollToTop";
 
 export const MainLayout = ({ children }: { children: React.ReactNode }) => {
-  // Scroll to top on pathname changes (real navigation)
-  useScrollToTop();
-
   return (
     <>
+      <ScrollToTop />
       <OfflineBanner />
       <Header />
       <main>

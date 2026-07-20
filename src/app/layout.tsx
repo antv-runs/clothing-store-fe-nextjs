@@ -1,17 +1,39 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import localFont from "next/font/local";
 import "./globals.css";
 import "@/styles/index.scss";
 import ReduxProvider from "@/components/providers/ReduxProvider";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
+const satoshi = localFont({
+  src: [
+    {
+      path: "../../public/fonts/Satoshi-Regular.woff2",
+      weight: "400",
+      style: "normal",
+    },
+    {
+      path: "../../public/fonts/Satoshi-Medium.woff2",
+      weight: "500",
+      style: "normal",
+    },
+    {
+      path: "../../public/fonts/Satoshi-Bold.woff2",
+      weight: "700",
+      style: "normal",
+    },
+  ],
+  variable: "--font-satoshi",
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
+const integralCF = localFont({
+  src: [
+    {
+      path: "../../public/fonts/Fontspring-DEMO-integralcf-bold.otf",
+      weight: "700",
+      style: "normal",
+    },
+  ],
+  variable: "--font-integral-cf",
 });
 
 export const metadata: Metadata = {
@@ -27,7 +49,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
+      className={`${satoshi.variable} ${integralCF.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">
         <ReduxProvider>{children}</ReduxProvider>
