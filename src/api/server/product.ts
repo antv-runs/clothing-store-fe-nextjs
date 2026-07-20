@@ -1,7 +1,9 @@
 import { buildQueryString, unwrapApiResponse, unwrapPaginatedResponse } from "@/utils/apiHelpers";
 import { mapApiProductToProduct, mapApiProductsToProducts } from "@/utils/productMapper";
+import { mapApiReviewsToReviews } from "@/utils/reviewMapper";
 import type { PaginatedApiResponse, ApiResponse } from "@/types/pagination";
 import type { ApiProduct } from "@/types/api/product";
+import type { ApiReview } from "@/types/api/review";
 
 const BASE_URL = process.env.API_URL || process.env.NEXT_PUBLIC_API_URL || "https://api.vanannek.blog";
 
@@ -35,4 +37,17 @@ export async function getServerRelatedProducts() {
   if (!res) return [];
   const { data: apiProducts } = unwrapPaginatedResponse(res, "Failed to fetch related products");
   return mapApiProductsToProducts(apiProducts);
+}
+
+export async function getServerProductReviews(id: string) {
+  if (!id) return null;
+  const queryStr = buildQueryString({ page: 1, per_page: 6, sort: "latest" }).toString();
+  const res = await serverFetch<PaginatedApiResponse<ApiReview>>(`/api/products/${encodeURIComponent(id)}/reviews?${queryStr}`);
+  if (!res) return null;
+  const { data: apiReviews, meta } = unwrapPaginatedResponse(res, "Failed to fetch reviews");
+  return {
+    reviews: mapApiReviewsToReviews(apiReviews, id),
+    total: meta.total,
+    lastPage: meta.last_page,
+  };
 }

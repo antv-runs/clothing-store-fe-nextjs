@@ -1,6 +1,6 @@
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
-import { getServerProductById, getServerRelatedProducts } from "@/api/server/product";
+import { getServerProductById, getServerRelatedProducts, getServerProductReviews } from "@/api/server/product";
 import { ProductDetailClient } from "./ProductDetailClient";
 
 export async function generateMetadata({
@@ -34,14 +34,21 @@ export default async function ProductDetailPage({
   params: Promise<{ id: string }>;
 }) {
   const { id } = await params;
-  const [product, relatedProducts] = await Promise.all([
+  const [product, relatedProducts, initialReviews] = await Promise.all([
     getServerProductById(id).catch(() => null),
     getServerRelatedProducts().catch(() => []),
+    getServerProductReviews(id).catch(() => null),
   ]);
 
   if (!product) {
     notFound(); // Triggers Next.js 404 page
   }
 
-  return <ProductDetailClient product={product} relatedProducts={relatedProducts} />;
+  return (
+    <ProductDetailClient 
+      product={product} 
+      relatedProducts={relatedProducts}
+      initialReviews={initialReviews} 
+    />
+  );
 }

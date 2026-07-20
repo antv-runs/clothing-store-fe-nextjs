@@ -175,11 +175,24 @@ const reducer = (state: State, action: Action): State => {
 
 export const useProductReviews = (
   productId: string | number | null | undefined,
+  initialData?: { reviews: Review[]; total: number; lastPage: number } | null,
 ) => {
-  const [state, dispatch] = useReducer(reducer, initialState);
+  const [state, dispatch] = useReducer(reducer, initialState, (defaultState) => {
+    if (initialData && initialData.reviews.length > 0) {
+      return {
+        ...defaultState,
+        reviews: initialData.reviews,
+        total: initialData.total,
+        lastPage: initialData.lastPage,
+      };
+    }
+    return defaultState;
+  });
   const requestIdRef = useRef(0);
   const previousProductIdRef = useRef(productId);
-  const lastPageOneRequestKeyRef = useRef<string | null>(null);
+  const lastPageOneRequestKeyRef = useRef<string | null>(
+    initialData && productId ? `${String(productId)}|${DEFAULT_FILTER}|${DEFAULT_SORT}` : null
+  );
 
   const requestPageOne = useCallback(
     async (

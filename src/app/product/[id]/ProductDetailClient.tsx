@@ -39,10 +39,12 @@ const normalizeQuantity = (value: number | string): number => {
 
 export function ProductDetailClient({ 
   product, 
-  relatedProducts 
+  relatedProducts,
+  initialReviews,
 }: { 
   product: Product; 
-  relatedProducts: Product[] 
+  relatedProducts: Product[];
+  initialReviews: any;
 }) {
 
   // Track selected color and size for add-to-cart functionality
@@ -68,7 +70,7 @@ export function ProductDetailClient({
     setSort,
     loadMore,
     reloadReviews,
-  } = useProductReviews(product?.id);
+  } = useProductReviews(product?.id, initialReviews);
   const { addItem } = useCartRows();
   const { showToast } = useToast();
 
