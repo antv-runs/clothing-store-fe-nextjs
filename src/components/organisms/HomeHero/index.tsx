@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Image } from "@/components/atoms/Image";
+import Image from "next/image";
 import "./index.scss";
 import { Heading } from "@/components/atoms/Heading";
 import { Icon } from "@/components/atoms/Icon";
@@ -73,8 +73,9 @@ export const HomeHero: React.FC = () => {
             src="/images/pic_hero_couple.jpg"
             alt="Fashion models wearing black outfits"
             priority
-            renderWrapper={false}
-            imgClassName="home-hero__image"
+            fill
+            className="home-hero__image"
+            style={{ objectFit: "cover" }}
             sizes="(max-width: 768px) 100vw, (max-width: 1240px) 50vw, 600px"
           />
         </div>

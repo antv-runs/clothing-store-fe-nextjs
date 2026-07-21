@@ -2,7 +2,7 @@
 
 import React, { useState, useRef, useCallback } from "react";
 import clsx from "clsx";
-import { Image } from "@/components/atoms/Image";
+import Image from "next/image";
 import type { ProductImage } from "@/types/product";
 import "./index.scss";
 
@@ -209,10 +209,10 @@ export const ProductGallery: React.FC<ProductGalleryProps> = ({
           <Image
             src={fallbackPlaceholder}
             alt={productName}
-            renderWrapper={false}
-            imgClassName="product-gallery__main-image"
-            isLoaded={true}
-            fit="cover"
+            className="product-gallery__main-image product-gallery__main-image--loaded"
+            fill
+            style={{ objectFit: "cover" }}
+            unoptimized
           />
         </div>
       </div>
@@ -264,19 +264,18 @@ export const ProductGallery: React.FC<ProductGalleryProps> = ({
 
               {/* Thumbnail Image with lazy loading */}
               <Image
-                src={srcUrl}
+                src={srcUrl || fallbackPlaceholder}
                 alt={image.alt || image.alt_text || productName}
-                renderWrapper={false}
-                imgClassName="product-gallery__image product-gallery__image--thumb"
-                isLoaded={isLoaded}
-                isError={isError}
-                loadedClassName="product-gallery__image--loaded"
-                errorClassName="product-gallery__image--error"
-                loading="lazy"
+                className={clsx("product-gallery__image product-gallery__image--thumb", {
+                  "product-gallery__image--loaded": isLoaded,
+                  "product-gallery__image--error": isError,
+                })}
+                fill
                 sizes="(max-width: 768px) 112px, 152px"
-                fit="cover"
+                style={{ objectFit: "cover" }}
                 onLoad={() => handleThumbnailLoad(thumbLoadKey)}
                 onError={() => handleThumbnailError(thumbLoadKey)}
+                unoptimized={!srcUrl || srcUrl.startsWith('data:') || srcUrl.endsWith('.svg')}
               />
             </button>
           );
@@ -302,17 +301,17 @@ export const ProductGallery: React.FC<ProductGalleryProps> = ({
                 ? `${productName} image unavailable`
                 : activeImage?.alt || activeImage?.alt_text || productName
             }
-            renderWrapper={false}
-            imgClassName="product-gallery__main-image"
-            isLoaded={mainImageLoaded}
-            isError={mainImageError}
-            loadedClassName="product-gallery__main-image--loaded"
-            errorClassName="product-gallery__main-image--error"
+            className={clsx("product-gallery__main-image", {
+              "product-gallery__main-image--loaded": mainImageLoaded,
+              "product-gallery__main-image--error": mainImageError,
+            })}
             priority
+            fill
             sizes="(max-width: 768px) 100vw, 444px"
-            fit="cover"
+            style={{ objectFit: "cover" }}
             onLoad={handleMainImageLoad}
             onError={handleMainImageError}
+            unoptimized={!mainImageSrc || mainImageSrc.startsWith('data:') || mainImageSrc.endsWith('.svg')}
           />
         </div>
       </div>

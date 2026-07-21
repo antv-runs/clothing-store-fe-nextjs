@@ -1,7 +1,7 @@
 import clsx from "clsx";
 import Link from "next/link";
 import { Heading } from "@/components/atoms/Heading";
-import { Image } from "@/components/atoms/Image";
+import Image from "next/image";
 import { Star } from "@/components/atoms/Star";
 import { Text } from "@/components/atoms/Text";
 import { ProductPrice } from "@/components/molecules/ProductPrice";
@@ -68,17 +68,17 @@ export const ProductCard: React.FC<ProductCardProps> = ({
     <Image
       src={thumbnail}
       alt={thumbnailAlt || name}
-      renderWrapper={false}
-      imgClassName="product-card__image product-image"
-      isLoaded={imageLoaded}
-      isError={imageError}
-      loadedClassName="product-image--loaded is-loaded"
-      errorClassName="product-image--error is-error"
-      loading="lazy"
+      className={clsx(
+        "product-card__image product-image",
+        imageLoaded && "product-image--loaded is-loaded",
+        imageError && "product-image--error is-error"
+      )}
+      fill
       sizes="(max-width: 768px) 50vw, (max-width: 992px) 250px, 295px"
-      fit="cover"
+      style={{ objectFit: "cover" }}
       onLoad={onImageLoad}
       onError={onImageError}
+      unoptimized={thumbnail.startsWith('data:') || thumbnail.endsWith('.svg')}
     />
   );
 

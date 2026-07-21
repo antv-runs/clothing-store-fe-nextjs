@@ -1,4 +1,4 @@
-import { Image } from "@/components/atoms/Image";
+import Image from "next/image";
 import "./index.scss";
 
 const HOME_BRANDS_TOP = [
@@ -46,10 +46,9 @@ export const HomeBrands: React.FC = () => {
             <Image
               src={brand.imagePath}
               alt={`${brand.name} logo`}
-              loading="lazy"
-              decoding="async"
-              renderWrapper={false}
-              imgClassName="home-brands__logo"
+              fill
+              unoptimized
+              className="home-brands__logo"
             />
           </li>
         ))}
@@ -65,10 +64,9 @@ export const HomeBrands: React.FC = () => {
               <Image
                 src={brand.imagePath}
                 alt=""
-                loading="lazy"
-                decoding="async"
-                renderWrapper={false}
-                imgClassName="home-brands__logo"
+                fill
+                unoptimized
+                className="home-brands__logo"
               />
             </li>
           ))}
@@ -83,10 +81,9 @@ export const HomeBrands: React.FC = () => {
               <Image
                 src={brand.imagePath}
                 alt=""
-                loading="lazy"
-                decoding="async"
-                renderWrapper={false}
-                imgClassName="home-brands__logo"
+                fill
+                unoptimized
+                className="home-brands__logo"
               />
             </li>
           ))}

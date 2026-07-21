@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { Heading } from "@/components/atoms/Heading";
-import { Image } from "@/components/atoms/Image";
+import Image from "next/image";
 import { Text } from "@/components/atoms/Text";
 import "./index.scss";
 
@@ -50,8 +50,7 @@ export const HomeStyleGrid: React.FC = () => {
               <Image
                 src={item.imagePath}
                 alt={`${item.title} style`}
-                loading="lazy"
-                renderWrapper={false}
+                fill
                 sizes={
                   item.cardSize === "small"
                     ? "(max-width: 992px) 100vw, 407px"
