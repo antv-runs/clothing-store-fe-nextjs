@@ -1,3 +1,4 @@
+import { cache } from "react";
 import { get } from "@/lib/axios";
 import type { PaginatedApiResponse, ApiResponse } from "@/types/pagination";
 import type { Product, ProductListResult } from "@/types/product";
@@ -12,9 +13,9 @@ import {
   buildQueryString,
 } from "@/utils/apiHelpers";
 
-export async function getProducts(
+export const getProducts = cache(async (
   params: GetProductsParams = {},
-): Promise<ProductListResult> {
+): Promise<ProductListResult> => {
   const queryStr = buildQueryString(params).toString();
   const url = queryStr ? `/api/products?${queryStr}` : "/api/products";
   const res = await get<PaginatedApiResponse<ApiProduct>>(url);
@@ -28,14 +29,14 @@ export async function getProducts(
     meta,
     links,
   };
-}
+});
 
-export async function getProductById(
+export const getProductById = cache(async (
   id: string | number,
-): Promise<Product | null> {
+): Promise<Product | null> => {
   if (!id) return null;
   const url = `/api/products/${encodeURIComponent(String(id))}`;
   const res = await get<ApiResponse<ApiProduct>>(url);
   const apiProduct = unwrapApiResponse(res, "Failed to fetch product");
   return mapApiProductToProduct(apiProduct);
-}
+});

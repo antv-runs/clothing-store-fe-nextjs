@@ -17,15 +17,11 @@ import { useCartRows } from "@/hooks/useCartRows";
 import { useProductReviews } from "@/hooks/useProductReviews";
 import { useReviewSubmit } from "@/hooks/useReviewSubmit";
 import { useToast } from "@/hooks/useToast";
-import { Button } from "@/components/atoms/Button";
-import { Text } from "@/components/atoms/Text";
+
 import type { Product } from "@/types/product";
 import "./index.scss";
 
 const DEFAULT_QUANTITY = 1;
-const NETWORK_ERROR_MESSAGE =
-  "Failed to load product. Please check your connection and try again.";
-const SYSTEM_ERROR_MESSAGE = "Something went wrong while loading this product.";
 
 const normalizeQuantity = (value: number | string): number => {
   const parsed = Number(value);
@@ -42,6 +38,7 @@ export function ProductDetailClient({
 }: { 
   product: Product; 
   relatedProducts: Product[];
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   initialReviews: any;
 }) {
 
@@ -256,6 +253,7 @@ export function ProductDetailClient({
               }
             >
               <ProductGallery
+                key={product.id}
                 images={product.images || []}
                 productName={product.name}
                 thumbnail={product.thumbnail}
@@ -266,6 +264,7 @@ export function ProductDetailClient({
               <ProductInfo product={product} />
 
               <ProductVariants
+                key={product.id}
                 variants={product.variants}
                 onColorSelect={setSelectedColorId}
                 onSizeSelect={setSelectedSizeId}

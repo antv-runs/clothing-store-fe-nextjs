@@ -8,4 +8,4 @@ import type { AxiosRequestConfig } from "axios";
  * HTTP client configuration options
  * Extended from Axios configuration
  */
-export interface HttpClientOptions extends AxiosRequestConfig {}
+export type HttpClientOptions = AxiosRequestConfig;

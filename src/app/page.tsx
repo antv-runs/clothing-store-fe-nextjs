@@ -11,7 +11,8 @@ export async function generateMetadata(): Promise<Metadata> {
     description: "Shop the latest fashion items and discover new collections.",
     openGraph: {
       title: "Clothing Store – Home",
-      description: "Shop the latest fashion items and discover new collections.",
+      description:
+        "Shop the latest fashion items and discover new collections.",
       images: "/assets/og-home.png",
       url: "/",
       type: "website",
@@ -19,7 +20,8 @@ export async function generateMetadata(): Promise<Metadata> {
     twitter: {
       card: "summary_large_image",
       title: "Clothing Store – Home",
-      description: "Shop the latest fashion items and discover new collections.",
+      description:
+        "Shop the latest fashion items and discover new collections.",
       images: ["/assets/og-home.png"],
     },
     alternates: {
@@ -75,10 +77,7 @@ export default async function Home() {
           />
 
           <HomeStyleGrid />
-          <HomeReviews
-            reviews={reviews}
-            isLoading={false}
-          />
+          <HomeReviews reviews={reviews} isLoading={false} />
         </section>
       </div>
     </MainLayout>

@@ -7,11 +7,9 @@
   border-radius: v.$radius-pill;
   background: transparent;
   color: inherit;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
+  display: inline-grid;
+  place-items: center;
   position: relative;
-  gap: 8px;
   cursor: pointer;
   font: inherit;
   line-height: 1;
@@ -30,10 +28,13 @@
   }
 
   &__content {
+    grid-area: 1 / 1;
     display: inline-flex;
     align-items: center;
     justify-content: center;
     min-width: 0;
+    gap: 8px;
+    transition: opacity 150ms ease;
   }
 
   &__content--hidden {
@@ -41,8 +42,7 @@
   }
 
   &__loading {
-    position: absolute;
-    inset: 0;
+    grid-area: 1 / 1;
     display: inline-flex;
     align-items: center;
     justify-content: center;

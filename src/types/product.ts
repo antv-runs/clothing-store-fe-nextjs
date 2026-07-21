@@ -80,7 +80,7 @@ export interface Product {
   stock?: ProductStock;
 }
 
-export interface ProductDetail extends Product {}
+export type ProductDetail = Product;
 
 /**
  * Paginated list result from /api/products endpoint

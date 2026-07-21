@@ -97,23 +97,15 @@
 
   &__image-crop {
     position: absolute;
-    right: -48px;
-    bottom: 0;
-    width: 600px;
-    height: 663px;
+    inset: 0;
+    width: 100%;
+    height: 100%;
     margin: 0;
-    overflow: visible;
   }
 
   &__image {
-    position: absolute;
-    right: 0;
-    bottom: -285px;
-    width: auto;
-    height: 150%;
-    max-width: none;
-    object-fit: contain;
-    object-position: right bottom;
+    object-fit: cover !important;
+    object-position: top center !important;
   }
 }
 
@@ -156,19 +148,7 @@
       min-height: 663px;
     }
 
-    &__image-crop {
-      left: 50%;
-      right: auto;
-      transform: translateX(-50%);
-      width: 600px; // restore desktop dimensions — image is now centered safely
-      height: 663px;
-    }
 
-    &__image {
-      left: 50%;
-      right: auto;
-      transform: translateX(-50%);
-    }
 
     &__sparkle--left {
       left: calc(50% - 280px);
@@ -194,17 +174,7 @@
       min-height: 663px;
     }
 
-    &__image-crop {
-      left: 50%;
-      right: auto;
-      transform: translateX(-50%);
-    }
 
-    &__image {
-      left: 50%;
-      right: auto;
-      transform: translateX(-50%);
-    }
 
     &__sparkle--left {
       left: calc(50% - 280px);
@@ -311,19 +281,8 @@
       top: 44px;
     }
 
-    &__image-crop {
-      left: 50%;
-      right: auto;
-      bottom: 90px;
-      width: 420px;
-      height: 448px;
-      transform: translateX(-50%);
-    }
-
     &__image {
-      left: 50%;
-      right: auto;
-      transform: translateX(-50%);
+      object-position: center 20% !important;
     }
   }
 }

@@ -162,14 +162,6 @@
       cursor: not-allowed;
     }
 
-    &::after {
-      content: "";
-      width: 20px;
-      height: 20px;
-      flex-shrink: 0;
-      background: url("/images/icn_arrow_right.svg") no-repeat center;
-      background-size: contain;
-    }
   }
 
   &__checkout-text {

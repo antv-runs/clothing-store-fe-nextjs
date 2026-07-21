@@ -135,6 +135,13 @@ export const CartSummaryPanel: React.FC<CartSummaryPanelProps> = ({
         onClick={onCheckout}
       >
         <span className="cart-summary__checkout-text">Go to Checkout</span>
+        <img
+          src="/images/icn_arrow_right.svg"
+          alt=""
+          width={20}
+          height={20}
+          aria-hidden="true"
+        />
       </Button>
     </aside>
   );

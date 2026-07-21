@@ -1,5 +1,4 @@
-import { useRef, useCallback, useLayoutEffect, useEffect } from "react";
-import { getTrackGap } from "@/utils/carousel";
+import { useRef, useCallback, useLayoutEffect } from "react";
 
 interface UseInfiniteLoopOptions {
   viewportRef: React.RefObject<HTMLDivElement | null>;

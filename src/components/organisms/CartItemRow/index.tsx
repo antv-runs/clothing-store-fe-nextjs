@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import Image from "next/image";
 import { ProductPrice } from "@/components/molecules/ProductPrice";
 import { QuantityStepper } from "@/components/molecules/QuantityStepper";
@@ -31,9 +31,12 @@ export const CartItemRow: React.FC<CartItemRowProps> = ({
   const [inputValue, setInputValue] = useState(String(item.quantity));
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  useEffect(() => {
+  const [prevQuantity, setPrevQuantity] = useState(item.quantity);
+
+  if (item.quantity !== prevQuantity) {
+    setPrevQuantity(item.quantity);
     setInputValue(String(item.quantity));
-  }, [item.quantity]);
+  }
 
   const requestRemove = () => {
     setIsModalOpen(true);

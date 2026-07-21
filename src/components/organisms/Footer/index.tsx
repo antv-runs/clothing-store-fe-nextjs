@@ -119,7 +119,7 @@ export const Footer = () => {
                 Shop.co
               </Text>
               <Text as="p" lineClamp={3} className="footer-main__description">
-                We have clothes that suits your style and which you're proud to
+                We have clothes that suits your style and which you&apos;re proud to
                 wear. From women to men.
               </Text>
               <SocialLinks

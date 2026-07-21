@@ -38,19 +38,6 @@ export const ProductGallery: React.FC<ProductGalleryProps> = ({
     new Set(),
   );
 
-  // Main image state management
-  const [activeImageIndex, setActiveImageIndex] = useState(0);
-  const [mainImageLoaded, setMainImageLoaded] = useState(false);
-  const [mainImageError, setMainImageError] = useState(false);
-  const [mainImageSrc, setMainImageSrc] = useState("");
-  const [mainImageFallbackApplied, setMainImageFallbackApplied] =
-    useState(false);
-
-  // Scroll fade state
-  const [hasScrollTop, setHasScrollTop] = useState(false);
-  const [hasScrollBottom, setHasScrollBottom] = useState(false);
-  const thumbnailsContainerRef = useRef<HTMLDivElement>(null);
-
   // Get fallback placeholder
   const fallbackPlaceholder = React.useMemo(
     () => createFallbackPlaceholder(productName),
@@ -70,6 +57,9 @@ export const ProductGallery: React.FC<ProductGalleryProps> = ({
     return sorted;
   }, [images]);
 
+  // Main image state management
+  const [activeImageIndex, setActiveImageIndex] = useState(0);
+
   // Select main image based on active index, thumbnail, or fallback
   const activeImage = sortedImages[activeImageIndex];
   const mainImageUrl =
@@ -78,29 +68,24 @@ export const ProductGallery: React.FC<ProductGalleryProps> = ({
     thumbnail ||
     fallbackPlaceholder;
 
-  const gallerySignature = React.useMemo(
-    () =>
-      sortedImages
-        .map(
-          (image, index) =>
-            `${image.id || index}:${image.url || image.image_url || ""}`,
-        )
-        .join("|"),
-    [sortedImages],
-  );
+  const [mainImageLoaded, setMainImageLoaded] = useState(false);
+  const [mainImageError, setMainImageError] = useState(false);
+  const [mainImageSrc, setMainImageSrc] = useState(mainImageUrl);
+  const [mainImageFallbackApplied, setMainImageFallbackApplied] = useState(false);
 
-  React.useEffect(() => {
-    setLoadedThumbIds(new Set());
-    setErroredThumbIds(new Set());
-    setActiveImageIndex(0);
-  }, [gallerySignature]);
+  // Scroll fade state
+  const [hasScrollTop, setHasScrollTop] = useState(false);
+  const [hasScrollBottom, setHasScrollBottom] = useState(false);
+  const thumbnailsContainerRef = useRef<HTMLDivElement>(null);
 
-  React.useEffect(() => {
+  const [prevMainImageUrl, setPrevMainImageUrl] = useState(mainImageUrl);
+  if (mainImageUrl !== prevMainImageUrl) {
+    setPrevMainImageUrl(mainImageUrl);
     setMainImageSrc(mainImageUrl);
     setMainImageLoaded(false);
     setMainImageError(false);
     setMainImageFallbackApplied(false);
-  }, [mainImageUrl]);
+  }
 
   /**
    * Handle thumbnail load completion

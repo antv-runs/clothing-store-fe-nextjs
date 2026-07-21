@@ -5,7 +5,7 @@ import type { CartRow } from "@/types/cart";
 const DEFAULT_QUANTITY = 1;
 
 let cart: CartRow[] = readStoredCartRows();
-let subscribers: Set<() => void> = new Set();
+const subscribers: Set<() => void> = new Set();
 
 const emitChange = () => {
   writeStoredCartRows(cart);

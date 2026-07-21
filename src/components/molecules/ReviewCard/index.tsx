@@ -37,7 +37,7 @@ export const ReviewCard: React.FC<ReviewCardProps> = ({ review }) => {
       </div>
       <ReviewMeta name={review.name} isVerified={review.isVerified} />
       <Text as="p" className="review-card__content">
-        "{review.desc}"
+        &quot;{review.desc}&quot;
       </Text>
       <Text as="p" className="review-card__footer">
         Posted on {formatDate(review.createdAt)}

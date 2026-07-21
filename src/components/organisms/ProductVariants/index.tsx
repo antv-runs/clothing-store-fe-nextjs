@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useCallback } from "react";
 import type { ProductVariants as ProductVariantsData } from "@/types/product";
 import { Text } from "@/components/atoms/Text";
 import { Icon } from "@/components/atoms/Icon";
@@ -113,25 +113,7 @@ export const ProductVariants: React.FC<ProductVariantsProps> = ({
     variants?.sizes?.length ? variants.sizes[0]?.id || null : null,
   );
 
-  // Sync color selection when variant list changes
-  useEffect(() => {
-    setSelectedColorId((prev) => {
-      if (!variants?.colors?.length) return null;
-      if (prev && variants.colors.some((c) => c.id === prev)) return prev;
-      return variants.colors[0]?.id || null;
-    });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [variants?.colors?.length, variants?.colors?.[0]?.id]);
 
-  // Sync size selection when variant list changes
-  useEffect(() => {
-    setSelectedSizeId((prev) => {
-      if (!variants?.sizes?.length) return null;
-      if (prev && variants.sizes.some((s) => s.id === prev)) return prev;
-      return variants.sizes[0]?.id || null;
-    });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [variants?.sizes?.length, variants?.sizes?.[0]?.id]);
 
   const handleColorSelect = useCallback(
     (colorId: string) => {
