@@ -14,9 +14,8 @@ interface RelatedProductsSectionProps {
   error: string | null;
   errorKind?: ListErrorKind | null;
   isRetrying: boolean;
-  onRetry: () => void;
+  onRetry?: () => void;
   title?: string;
-  formatPrice: (amount: number, currency?: string) => string;
 }
 
 /**
@@ -34,7 +33,6 @@ export const RelatedProductsSection: React.FC<RelatedProductsSectionProps> = ({
   isRetrying,
   onRetry,
   title = "You Might Also Like",
-  formatPrice,
 }) => {
   return (
     <section className="other-products u-mb-85">
@@ -60,7 +58,6 @@ export const RelatedProductsSection: React.FC<RelatedProductsSectionProps> = ({
           loadingContent={
             <ProductCardList
               products={products}
-              formatPrice={formatPrice}
               showNavigation={true}
               loading={true}
               skeletonCount={8}
@@ -71,7 +68,6 @@ export const RelatedProductsSection: React.FC<RelatedProductsSectionProps> = ({
         >
           <ProductCardList
             products={products}
-            formatPrice={formatPrice}
             showNavigation={true}
             loading={false}
             skeletonCount={8}

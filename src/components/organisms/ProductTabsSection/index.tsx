@@ -1,63 +1,110 @@
 "use client";
 
-import React, { useMemo, useState, useRef } from "react";
+import React, { useMemo, useState, useRef, useCallback, useEffect } from "react";
 import "./index.scss";
-import type { ListErrorKind } from "@/types/listState";
-import type { Review } from "@/types/review";
-import type { ProductFaq } from "@/types/product";
 import { ProductTabsNav } from "@/components/molecules/ProductTabsNav";
 import { ProductReviewsTab } from "@/components/organisms/ProductReviewsTab";
+import { WriteReviewModal } from "@/components/organisms/WriteReviewModal";
+import { useProductReviews } from "@/hooks/useProductReviews";
+import { useReviewSubmit } from "@/hooks/useReviewSubmit";
+import { useToast } from "@/hooks/useToast";
 
 type TabKey = "tc-details" | "tc-reviews" | "tc-faqs";
 
 interface ProductTabsSectionProps {
-  details: string;
-  faqs: ProductFaq[];
-  reviews: Review[];
-  reviewCount: number;
-  isLoadingReviews: boolean;
-  isLoadingMoreReviews: boolean;
-  isRetrying: boolean;
-  hasMoreReviews: boolean;
-  selectedRating: string;
-  selectedSort: "latest" | "oldest" | "highest";
-  onRatingChange: (value: string) => void;
-  onSortChange: (value: "latest" | "oldest" | "highest") => void;
-  onLoadMore: () => void;
-  onRetry: () => void;
-  reviewError?: string | null;
-  reviewErrorKind?: ListErrorKind | null;
-  onWriteReview: () => void;
+  productId: string;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  initialReviews: any;
+  detailsNode: React.ReactNode;
+  faqsNode: React.ReactNode;
 }
 
 const DEFAULT_ACTIVE_TAB: TabKey = "tc-reviews";
 
 export const ProductTabsSection: React.FC<ProductTabsSectionProps> = ({
-  details,
-  faqs,
-  reviews,
-  reviewCount,
-  isLoadingReviews,
-  isLoadingMoreReviews,
-  isRetrying,
-  hasMoreReviews,
-  selectedRating,
-  selectedSort,
-  onRatingChange,
-  onSortChange,
-  onLoadMore,
-  onRetry,
-  reviewError,
-  reviewErrorKind,
-  onWriteReview,
+  productId,
+  initialReviews,
+  detailsNode,
+  faqsNode,
 }) => {
   const [activeTab, setActiveTab] = useState<TabKey>(DEFAULT_ACTIVE_TAB);
+  const [isWriteReviewModalOpen, setIsWriteReviewModalOpen] = useState<boolean>(false);
 
   const panelRefs = useRef<Map<TabKey, HTMLElement>>(new Map());
+  const { showToast } = useToast();
+
+  const {
+    reviews,
+    reviewCount,
+    selectedRating,
+    selectedSort,
+    hasMore,
+    isLoading: isLoadingReviews,
+    isLoadingMore: isLoadingMoreReviews,
+    isRetrying: isRetryingReviews,
+    error: reviewError,
+    errorKind: reviewErrorKind,
+    setFilter,
+    setSort,
+    loadMore,
+    reloadReviews,
+  } = useProductReviews(productId, initialReviews);
+
+  const handleReviewSubmitSuccess = useCallback(async () => {
+    setIsWriteReviewModalOpen(false);
+    showToast({
+      message: "Review submitted successfully. Thank you for your feedback!",
+      variant: "success",
+      duration: 5000,
+    });
+    await reloadReviews();
+  }, [reloadReviews, showToast]);
+
+  const {
+    isSubmittingReview,
+    reviewStatusMessage,
+    clearReviewStatusMessage,
+    handleReviewSubmit,
+  } = useReviewSubmit({
+    productId,
+    onSuccess: handleReviewSubmitSuccess,
+  });
+
+  useEffect(() => {
+    if (isWriteReviewModalOpen) {
+      document.body.classList.add("review-modal-open");
+    } else {
+      document.body.classList.remove("review-modal-open");
+    }
+    return () => {
+      document.body.classList.remove("review-modal-open");
+    };
+  }, [isWriteReviewModalOpen]);
+
+  useEffect(() => {
+    if (!isWriteReviewModalOpen) return;
+    const handleEscape = (event: KeyboardEvent) => {
+      if (event.key === "Escape") setIsWriteReviewModalOpen(false);
+    };
+    window.addEventListener("keydown", handleEscape);
+    return () => {
+      window.removeEventListener("keydown", handleEscape);
+    };
+  }, [isWriteReviewModalOpen]);
+
+  const handleOpenReviewModal = useCallback(() => {
+    if (isSubmittingReview) return;
+    clearReviewStatusMessage();
+    setIsWriteReviewModalOpen(true);
+  }, [clearReviewStatusMessage, isSubmittingReview]);
+
+  const handleCloseReviewModal = useCallback(() => {
+    if (isSubmittingReview) return;
+    setIsWriteReviewModalOpen(false);
+  }, [isSubmittingReview]);
 
   const handleTabSelect = (tab: TabKey) => {
     setActiveTab(tab);
-
     if (window.innerWidth <= 768) {
       const target = panelRefs.current.get(tab);
       target?.scrollIntoView({ behavior: "smooth", block: "start" });
@@ -91,7 +138,7 @@ export const ProductTabsSection: React.FC<ProductTabsSectionProps> = ({
         aria-hidden={activeTab !== "tc-details"}
         className={detailsPanelClassName}
       >
-        <div>{details}</div>
+        <div>{detailsNode}</div>
       </section>
 
       <ProductReviewsTab
@@ -103,17 +150,17 @@ export const ProductTabsSection: React.FC<ProductTabsSectionProps> = ({
         isActive={activeTab === "tc-reviews"}
         isLoading={isLoadingReviews}
         isLoadingMore={isLoadingMoreReviews}
-        isRetrying={isRetrying}
-        hasMore={hasMoreReviews}
+        isRetrying={isRetryingReviews}
+        hasMore={hasMore}
         selectedRating={selectedRating}
         selectedSort={selectedSort}
-        onRatingChange={onRatingChange}
-        onSortChange={onSortChange}
-        onLoadMore={onLoadMore}
-        onRetry={onRetry}
+        onRatingChange={setFilter}
+        onSortChange={setSort}
+        onLoadMore={loadMore}
+        onRetry={reloadReviews}
         error={reviewError}
         errorKind={reviewErrorKind}
-        onWriteReview={onWriteReview}
+        onWriteReview={handleOpenReviewModal}
       />
 
       <section
@@ -127,19 +174,20 @@ export const ProductTabsSection: React.FC<ProductTabsSectionProps> = ({
         aria-hidden={activeTab !== "tc-faqs"}
         className={faqsPanelClassName}
       >
-        <ul className="faqs">
-          {faqs.length ? (
-            faqs.map((faq, index) => (
-              <li key={`${faq.question}-${index}`}>
-                <strong>{faq.question}</strong>
-                <p>{faq.answer}</p>
-              </li>
-            ))
-          ) : (
-            <li>No FAQs available.</li>
-          )}
-        </ul>
+        {faqsNode}
       </section>
+
+      <WriteReviewModal
+        key={isWriteReviewModalOpen ? "write-review-open" : "write-review-closed"}
+        isOpen={isWriteReviewModalOpen}
+        isSubmitting={isSubmittingReview}
+        onClose={handleCloseReviewModal}
+        onSubmit={handleReviewSubmit}
+      />
+
+      <div aria-live="polite" className="sr-only">
+        {reviewStatusMessage}
+      </div>
     </section>
   );
 };

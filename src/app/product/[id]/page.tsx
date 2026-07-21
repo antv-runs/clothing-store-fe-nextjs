@@ -2,7 +2,7 @@ import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import { getServerProductById, getServerRelatedProducts, getServerProductReviews } from "@/api/server/product";
 import { MainLayout } from "@/components/templates/MainLayout";
-import { ProductDetailClient } from "./ProductDetailClient";
+import { ProductDetailView } from "./ProductDetailView";
 
 import { getSiteUrl } from "@/utils/seo";
 
@@ -118,7 +118,7 @@ export default async function ProductDetailPage({
           __html: JSON.stringify(breadcrumbJsonLd).replace(/</g, "\\u003c"),
         }}
       />
-      <ProductDetailClient
+      <ProductDetailView
         product={product}
         relatedProducts={relatedProducts}
         initialReviews={initialReviews}
