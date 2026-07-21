@@ -1,4 +1,5 @@
 import React from "react";
+import Image from "next/image";
 
 type BrandImageProps = {
   src: string;
@@ -17,14 +18,18 @@ export const BrandImage: React.FC<BrandImageProps> = ({
   width,
   height,
 }) => {
+  const numericWidth = typeof width === "number" ? width : (width && !isNaN(Number(width)) ? Number(width) : 46);
+  const numericHeight = typeof height === "number" ? height : (height && !isNaN(Number(height)) ? Number(height) : 30);
+
   return (
     <figure className={className}>
-      <img
+      <Image
         src={src}
         alt={alt}
         className={imageClassName}
-        width={width}
-        height={height}
+        width={numericWidth}
+        height={numericHeight}
+        unoptimized
       />
     </figure>
   );

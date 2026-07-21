@@ -12,7 +12,7 @@
     font-family: "IntegralCF", sans-serif;
     font-size: 40px;
     line-height: 1.1;
-    margin-bottom: 24px;
+    margin-bottom: 36px;
   }
 
   &__layout {
@@ -20,9 +20,9 @@
     grid-template-columns: 1fr 505px;
     gap: 20px;
     align-items: start;
+    margin-top: 40px;
   }
 }
-
 
 .cart-empty {
   min-height: 60vh;
@@ -62,10 +62,12 @@
 .cart-skeleton-block {
   display: block;
   border-radius: 10px;
-  background: linear-gradient(90deg,
-      rgba(0, 0, 0, 0.08) 25%,
-      rgba(0, 0, 0, 0.15) 37%,
-      rgba(0, 0, 0, 0.08) 63%);
+  background: linear-gradient(
+    90deg,
+    rgba(0, 0, 0, 0.08) 25%,
+    rgba(0, 0, 0, 0.15) 37%,
+    rgba(0, 0, 0, 0.08) 63%
+  );
   background-size: 200% 100%;
   animation: cartSkeletonShimmer 1.2s ease-in-out infinite;
 

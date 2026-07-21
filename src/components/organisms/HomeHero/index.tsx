@@ -72,10 +72,10 @@ export const HomeHero: React.FC = () => {
           <Image
             src="/images/pic_hero_couple.jpg"
             alt="Fashion models wearing black outfits"
-            loading="eager"
-            decoding="async"
+            priority
             renderWrapper={false}
             imgClassName="home-hero__image"
+            sizes="(max-width: 768px) 100vw, (max-width: 1240px) 50vw, 600px"
           />
         </div>
       </div>

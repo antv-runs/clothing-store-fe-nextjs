@@ -8,6 +8,22 @@ const nextConfig: NextConfig = {
   sassOptions: {
     includePaths: [path.join(__dirname, "src/styles")],
   },
+  images: {
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "api.vanannek.blog",
+      },
+      {
+        protocol: "https",
+        hostname: "api.minio.vanannek.blog",
+      },
+      {
+        protocol: "https",
+        hostname: "via.placeholder.com",
+      },
+    ],
+  },
 };
 
 export default nextConfig;

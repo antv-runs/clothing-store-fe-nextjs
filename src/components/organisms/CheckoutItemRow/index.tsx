@@ -1,4 +1,5 @@
 import React from "react";
+import Image from "next/image";
 import { ProductPrice } from "@/components/molecules/ProductPrice";
 import "./index.scss";
 import type { Product } from "@/types/product";
@@ -25,15 +26,19 @@ export const CheckoutItemRow: React.FC<CheckoutItemRowProps> = ({
       ? item.pricing.original * item.quantity
       : null;
 
+  const transparentPixel = "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7";
+  const imageSrc = item.thumbnail || item.images?.[0]?.url || transparentPixel;
+
   return (
     <article className="checkout-item">
       <div className="checkout-item__image-shell">
-        <img
+        <Image
           className="checkout-item__image"
-          src={item.thumbnail || item.images?.[0]?.url}
+          src={imageSrc}
           alt={item.thumbnailAlt || item.name}
-          loading="lazy"
-          decoding="async"
+          width={80}
+          height={80}
+          sizes="80px"
         />
       </div>
 

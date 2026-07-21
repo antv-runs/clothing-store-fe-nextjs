@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
+import Image from "next/image";
 import { ProductPrice } from "@/components/molecules/ProductPrice";
 import { QuantityStepper } from "@/components/molecules/QuantityStepper";
 import { IconButton } from "@/components/atoms/IconButton";
@@ -80,6 +81,9 @@ export const CartItemRow: React.FC<CartItemRowProps> = ({
       ? item.pricing.original * item.quantity
       : null;
 
+  const transparentPixel = "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7";
+  const imageSrc = item.thumbnail || item.images?.[0]?.url || transparentPixel;
+
   return (
     <article
       className="cart-item"
@@ -100,12 +104,12 @@ export const CartItemRow: React.FC<CartItemRowProps> = ({
             className="cart-item__image-placeholder cart-skeleton-block"
             aria-hidden="true"
           ></span>
-          <img
+          <Image
             className="cart-item__image"
-            src={item.thumbnail || item.images?.[0]?.url}
+            src={imageSrc}
             alt={item.thumbnailAlt || item.name}
-            loading="lazy"
-            decoding="async"
+            fill
+            sizes="(max-width: 768px) 100px, (max-width: 992px) 112px, 124px"
           />
         </div>
       </a>

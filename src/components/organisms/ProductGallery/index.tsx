@@ -273,6 +273,7 @@ export const ProductGallery: React.FC<ProductGalleryProps> = ({
                 loadedClassName="product-gallery__image--loaded"
                 errorClassName="product-gallery__image--error"
                 loading="lazy"
+                sizes="(max-width: 768px) 112px, 152px"
                 fit="cover"
                 onLoad={() => handleThumbnailLoad(thumbLoadKey)}
                 onError={() => handleThumbnailError(thumbLoadKey)}
@@ -307,7 +308,8 @@ export const ProductGallery: React.FC<ProductGalleryProps> = ({
             isError={mainImageError}
             loadedClassName="product-gallery__main-image--loaded"
             errorClassName="product-gallery__main-image--error"
-            loading="eager"
+            priority
+            sizes="(max-width: 768px) 100vw, 444px"
             fit="cover"
             onLoad={handleMainImageLoad}
             onError={handleMainImageError}

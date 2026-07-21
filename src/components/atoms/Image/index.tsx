@@ -3,6 +3,7 @@
 import type { CSSProperties, ImgHTMLAttributes, ReactEventHandler } from "react";
 import { useEffect, useState } from "react";
 import clsx from "clsx";
+import NextImage from "next/image";
 import "./Image.scss";
 
 type BaseImageProps = Omit<ImgHTMLAttributes<HTMLImageElement>, "width" | "height" | "src" | "alt" | "onLoad" | "onError" | "onClick">;
@@ -20,13 +21,14 @@ type ImageProps = BaseImageProps & {
   fit?: CSSProperties["objectFit"];
   objectPosition?: CSSProperties["objectPosition"];
   loading?: "lazy" | "eager";
-  decoding?: "async" | "sync" | "auto";
   showPlaceholder?: boolean;
   isLoaded?: boolean;
   isError?: boolean;
   loadedClassName?: string;
   errorClassName?: string;
   renderWrapper?: boolean;
+  priority?: boolean;
+  sizes?: string;
   onLoad?: ReactEventHandler<HTMLImageElement>;
   onError?: ReactEventHandler<HTMLImageElement>;
   onClick?: ReactEventHandler<HTMLImageElement>;
@@ -53,13 +55,14 @@ export const Image = ({
   fit = "cover",
   objectPosition,
   loading,
-  decoding,
   showPlaceholder = false,
   isLoaded: externalIsLoaded,
   isError: externalIsError,
   loadedClassName = "is-loaded",
   errorClassName = "is-error",
   renderWrapper = true,
+  priority,
+  sizes,
   onLoad,
   onError,
   onClick,
@@ -75,12 +78,12 @@ export const Image = ({
     setInternalIsError(false);
   }, [src]);
 
-  const handleLoad: ReactEventHandler<HTMLImageElement> = (e) => {
+  const handleLoad = (e: any) => {
     setInternalIsLoaded(true);
     onLoad?.(e);
   };
 
-  const handleError: ReactEventHandler<HTMLImageElement> = (e) => {
+  const handleError = (e: any) => {
     if (fallbackSrc && imgSrc !== fallbackSrc) {
       setImgSrc(fallbackSrc);
       setInternalIsError(false);
@@ -105,20 +108,18 @@ export const Image = ({
     aspectRatio: resolvedAspectRatioValue,
   };
 
-  const wrappedImgStyle: CSSProperties = {
-    width: "100%",
-    height: "100%",
-    objectFit: fit,
-    objectPosition,
-  };
+  // Convert dimensions to numbers if possible
+  const numericWidth = typeof width === "number" ? width : (width && !isNaN(Number(width)) ? Number(width) : undefined);
+  const numericHeight = typeof height === "number" ? height : (height && !isNaN(Number(height)) ? Number(height) : undefined);
 
-  const bareImgStyle: CSSProperties = {
-    width: resolvedWidth,
-    height: resolvedHeight,
-    aspectRatio: resolvedAspectRatioValue,
-    objectFit: fit,
-    objectPosition,
-  };
+  // If width or height are not absolute numbers, we must use next/image's "fill" prop
+  const isFill = numericWidth === undefined || numericHeight === undefined;
+
+  const transparentPixel = "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7";
+  const activeSrc = imgSrc || transparentPixel;
+
+  const isSvgOrDataUrl = activeSrc.startsWith("data:") || activeSrc.includes(".svg") || activeSrc.includes("localhost");
+  const unoptimized = isSvgOrDataUrl;
 
   const resolvedImgClassName = clsx(
     renderWrapper && "ui-image__img",
@@ -132,22 +133,24 @@ export const Image = ({
     placeholderClassName,
   );
 
-  if (!renderWrapper) {
-    return (
-      <img
-        className={resolvedImgClassName}
-        src={imgSrc || ""}
-        alt={alt}
-        loading={loading}
-        decoding={decoding}
-        style={bareImgStyle}
-        onLoad={handleLoad}
-        onClick={onClick}
-        onError={handleError}
-        {...rest}
-      />
-    );
-  }
+  const imageStyles: CSSProperties = {
+    objectFit: fit,
+    objectPosition,
+  };
+
+  const { decoding, ...cleanRest } = rest;
+
+  const nextImageProps = {
+    src: activeSrc,
+    alt,
+    priority,
+    unoptimized,
+    className: resolvedImgClassName,
+    onLoad: handleLoad,
+    onError: handleError,
+    onClick,
+    ...((loading && !priority) ? { loading } : {}),
+  };
 
   const resolvedWrapperClassName = clsx(
     "ui-image",
@@ -156,20 +159,86 @@ export const Image = ({
     finalIsError && "ui-image--error",
   );
 
+  if (isSvgOrDataUrl) {
+    if (!renderWrapper) {
+      return (
+        <img
+          className={resolvedImgClassName}
+          src={activeSrc}
+          alt={alt}
+          loading={loading}
+          style={{ width: resolvedWidth, height: resolvedHeight, aspectRatio: resolvedAspectRatioValue, ...imageStyles }}
+          onLoad={handleLoad}
+          onError={handleError}
+          onClick={onClick}
+          {...(cleanRest as any)}
+        />
+      );
+    }
+    return (
+      <div className={resolvedWrapperClassName} style={wrapperStyle}>
+        <img
+          className={resolvedImgClassName}
+          src={activeSrc}
+          alt={alt}
+          loading={loading}
+          style={{ width: "100%", height: "100%", ...imageStyles }}
+          onLoad={handleLoad}
+          onError={handleError}
+          onClick={onClick}
+          {...(cleanRest as any)}
+        />
+        {showPlaceholder ? (
+          <span className={resolvedPlaceholderClassName} aria-hidden="true" />
+        ) : null}
+      </div>
+    );
+  }
+
+  if (!renderWrapper) {
+    if (isFill) {
+      return (
+        <NextImage
+          fill
+          sizes={sizes}
+          style={imageStyles}
+          {...nextImageProps}
+          {...(cleanRest as any)}
+        />
+      );
+    }
+    return (
+      <NextImage
+        width={numericWidth}
+        height={numericHeight}
+        sizes={sizes}
+        style={{ ...imageStyles, width: resolvedWidth, height: resolvedHeight, aspectRatio: resolvedAspectRatioValue }}
+        {...nextImageProps}
+        {...(cleanRest as any)}
+      />
+    );
+  }
+
   return (
     <div className={resolvedWrapperClassName} style={wrapperStyle}>
-      <img
-        className={resolvedImgClassName}
-        src={imgSrc || ""}
-        alt={alt}
-        loading={loading}
-        decoding={decoding}
-        style={wrappedImgStyle}
-        onLoad={handleLoad}
-        onClick={onClick}
-        onError={handleError}
-        {...rest}
-      />
+      {isFill ? (
+        <NextImage
+          fill
+          sizes={sizes}
+          style={imageStyles}
+          {...nextImageProps}
+          {...(cleanRest as any)}
+        />
+      ) : (
+        <NextImage
+          width={numericWidth}
+          height={numericHeight}
+          sizes={sizes}
+          style={imageStyles}
+          {...nextImageProps}
+          {...(cleanRest as any)}
+        />
+      )}
       {showPlaceholder ? (
         <span className={resolvedPlaceholderClassName} aria-hidden="true" />
       ) : null}

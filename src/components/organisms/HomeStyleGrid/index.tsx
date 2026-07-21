@@ -51,8 +51,12 @@ export const HomeStyleGrid: React.FC = () => {
                 src={item.imagePath}
                 alt={`${item.title} style`}
                 loading="lazy"
-                decoding="async"
                 renderWrapper={false}
+                sizes={
+                  item.cardSize === "small"
+                    ? "(max-width: 992px) 100vw, 407px"
+                    : "(max-width: 992px) 100vw, 684px"
+                }
               />
             </Link>
           ))}
