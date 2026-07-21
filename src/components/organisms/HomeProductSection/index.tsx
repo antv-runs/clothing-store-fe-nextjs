@@ -1,6 +1,3 @@
-"use client";
-
-import { useState } from "react";
 import Link from "next/link";
 import clsx from "clsx";
 import { Heading } from "@/components/atoms/Heading";
@@ -8,7 +5,6 @@ import { ProductCardList } from "@/components/organisms/ProductCardList";
 import { ErrorBoundary } from "@/components/organisms/ErrorBoundary";
 import type { Product } from "@/types/product";
 import type { ListErrorKind } from "@/types/listState";
-import { formatPrice } from "@/utils/formatters";
 import { ListStateWrapper } from "@/components/molecules/ListStateWrapper";
 import "./index.scss";
 import { EmptyState } from "@/components/molecules/EmptyState";
@@ -44,25 +40,6 @@ export const HomeProductSection: React.FC<HomeProductSectionProps> = ({
 }) => {
   const sectionSlug = title.toLowerCase().replace(/\s+/g, "-");
   const hasRetryState = Boolean(error) || isRetrying;
-
-  const [loadedImageIds, setLoadedImageIds] = useState<Set<string>>(new Set());
-  const [errorImageIds, setErrorImageIds] = useState<Set<string>>(new Set());
-
-  const handleImageLoad = (productId: string) => {
-    setLoadedImageIds((previous) => {
-      const next = new Set(previous);
-      next.add(productId);
-      return next;
-    });
-  };
-
-  const handleImageError = (productId: string) => {
-    setErrorImageIds((previous) => {
-      const next = new Set(previous);
-      next.add(productId);
-      return next;
-    });
-  };
 
   return (
     <section
@@ -100,7 +77,6 @@ export const HomeProductSection: React.FC<HomeProductSectionProps> = ({
           loadingContent={
             <ProductCardList
               products={productsList}
-              formatPrice={formatPrice}
               showNavigation={false}
               loading={true}
               skeletonCount={skeletonCount}
@@ -110,14 +86,9 @@ export const HomeProductSection: React.FC<HomeProductSectionProps> = ({
         >
           <ProductCardList
             products={productsList}
-            formatPrice={formatPrice}
             showNavigation={false}
             loading={false}
             skeletonCount={skeletonCount}
-            imageLoaded={loadedImageIds}
-            imageError={errorImageIds}
-            onImageLoad={handleImageLoad}
-            onImageError={handleImageError}
           />
         </ListStateWrapper>
       </ErrorBoundary>
@@ -131,7 +102,6 @@ export const HomeProductSection: React.FC<HomeProductSectionProps> = ({
           )}
           aria-disabled={isLoading || undefined}
           tabIndex={isLoading ? -1 : undefined}
-          onClick={isLoading ? (e) => e.preventDefault() : undefined}
         >
           View All
         </Link>

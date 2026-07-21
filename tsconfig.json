@@ -30,5 +30,5 @@
     ".next/dev/types/**/*.ts",
     "**/*.mts"
   ],
-  "exclude": ["node_modules", "src/**/*.stories.tsx", "src/**/*.test.tsx"]
+  "exclude": ["node_modules", "Tasks", "src/**/*.stories.tsx", "src/**/*.test.tsx", "src/**/*.test.ts"]
 }

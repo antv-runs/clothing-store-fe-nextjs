@@ -1,13 +1,16 @@
+"use client";
+
+import { useState } from "react";
 import { IconButton } from "@/components/atoms/IconButton";
 import { Text } from "@/components/atoms/Text";
 import { TextLink } from "@/components/atoms/TextLink";
 import "./index.scss";
 
-type AnnouncementBarProps = {
-  onClose?: () => void;
-};
+export const AnnouncementBar: React.FC = () => {
+  const [isVisible, setIsVisible] = useState(true);
 
-export const AnnouncementBar: React.FC<AnnouncementBarProps> = ({ onClose }) => {
+  if (!isVisible) return null;
+
   return (
     <div className="announcement-bar">
       <div className="announcement-bar__container">
@@ -24,7 +27,7 @@ export const AnnouncementBar: React.FC<AnnouncementBarProps> = ({ onClose }) => 
           ariaLabel="Close announcement"
           iconWidth={14}
           iconHeight={14}
-          onClick={onClose}
+          onClick={() => setIsVisible(false)}
         />
       </div>
     </div>

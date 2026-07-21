@@ -1,4 +1,22 @@
-import { MainLayout } from "@/components/templates/MainLayout";
+import type { Metadata } from "next";
+import { WEB_SITE_URL } from "@/const";
+
+export async function generateMetadata(): Promise<Metadata> {
+  return {
+    title: "Clothing Store – Home",
+    description: "Shop the latest fashion items and discover new collections.",
+    openGraph: {
+      title: "Clothing Store – Home",
+      description: "Shop the latest fashion items and discover new collections.",
+      images: "/assets/og-home.png",
+    },
+    alternates: {
+      canonical: `${WEB_SITE_URL}/`,
+    },
+  };
+}
+
+
 import { HomeHero } from "@/components/organisms/HomeHero";
 import { HomeBrands } from "@/components/organisms/HomeBrands";
 import { HomeProductSection } from "@/components/organisms/HomeProductSection";

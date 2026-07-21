@@ -1,6 +1,4 @@
-"use client";
-
-import React, { useState } from "react";
+import React from "react";
 import "./index.scss";
 import { ProductCardList } from "@/components/organisms/ProductCardList";
 import { ErrorBoundary } from "@/components/organisms/ErrorBoundary";
@@ -26,7 +24,6 @@ interface RelatedProductsSectionProps {
  *
  * Handles:
  * - Section wrapper and heading
- * - Image state management for product cards
  * - ProductCardList with navigation enabled
  */
 export const RelatedProductsSection: React.FC<RelatedProductsSectionProps> = ({
@@ -39,25 +36,6 @@ export const RelatedProductsSection: React.FC<RelatedProductsSectionProps> = ({
   title = "You Might Also Like",
   formatPrice,
 }) => {
-  const [loadedImageIds, setLoadedImageIds] = useState<Set<string>>(new Set());
-  const [errorImageIds, setErrorImageIds] = useState<Set<string>>(new Set());
-
-  const handleImageLoad = (productId: string) => {
-    setLoadedImageIds((previous) => {
-      const next = new Set(previous);
-      next.add(productId);
-      return next;
-    });
-  };
-
-  const handleImageError = (productId: string) => {
-    setErrorImageIds((previous) => {
-      const next = new Set(previous);
-      next.add(productId);
-      return next;
-    });
-  };
-
   return (
     <section className="other-products u-mb-85">
       <Heading as="h2" className="other-products__title">
@@ -98,10 +76,6 @@ export const RelatedProductsSection: React.FC<RelatedProductsSectionProps> = ({
             loading={false}
             skeletonCount={8}
             linkMode="overlay"
-            imageLoaded={loadedImageIds}
-            imageError={errorImageIds}
-            onImageLoad={handleImageLoad}
-            onImageError={handleImageError}
           />
         </ListStateWrapper>
       </ErrorBoundary>

@@ -7,6 +7,7 @@ import { Text } from "@/components/atoms/Text";
 import { ProductPrice } from "@/components/molecules/ProductPrice";
 import { DEFAULT_CURRENCY } from "@/const/pricing";
 import { buildProductDetailPath } from "@/routes/paths";
+import { formatPrice as defaultFormatPrice } from "@/utils/formatters";
 import "./index.scss";
 
 type ProductCardData = {
@@ -25,7 +26,7 @@ type ProductCardData = {
 
 type ProductCardProps = {
   product: ProductCardData;
-  formatPrice: (amount: number, currency?: string) => string;
+  formatPrice?: (amount: number, currency?: string) => string;
   className?: string;
   linkMode?: "inline" | "overlay";
   imageLoaded?: boolean;
@@ -36,7 +37,7 @@ type ProductCardProps = {
 
 export const ProductCard: React.FC<ProductCardProps> = ({
   product,
-  formatPrice,
+  formatPrice = defaultFormatPrice,
   className,
   linkMode = "inline",
   imageLoaded,

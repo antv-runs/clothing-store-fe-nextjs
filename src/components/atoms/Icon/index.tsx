@@ -1,8 +1,6 @@
-"use client";
-
 import React from "react";
-import { ReactSVG } from "react-svg";
 import clsx from "clsx";
+import { svgMap } from "./svgs";
 import "./index.scss";
 
 function toCssDimension(value: number | string) {
@@ -15,7 +13,7 @@ export type IconProps = {
   size?: number | string;
   width?: number | string;
   height?: number | string;
-  onClick?: React.MouseEventHandler<HTMLElement | SVGSVGElement>;
+  onClick?: React.MouseEventHandler<HTMLElement>;
   className?: string;
 };
 
@@ -33,34 +31,33 @@ const IconComponent = ({
   const resolvedWidth = toCssDimension(finalWidth);
   const resolvedHeight = toCssDimension(finalHeight);
 
+  const SvgElement = svgMap[svgName];
+
+  if (!SvgElement) {
+    console.warn(`Icon "${svgName}" not found in svgMap.`);
+    return null;
+  }
+
   return (
-    <ReactSVG
+    <span
       className={clsx("icon", className)}
-      src={`/images/${svgName}.svg`}
-      wrapper="span"
       onClick={onClick}
       style={{
         width: `var(--icon-width, ${resolvedWidth})`,
         height: `var(--icon-height, ${resolvedHeight})`,
         color,
+        display: "inline-flex",
       }}
-      beforeInjection={(svg) => {
-        svg.setAttribute("aria-hidden", "true");
-        svg.setAttribute("focusable", "false");
-        svg.setAttribute("width", "100%");
-        svg.setAttribute("height", "100%");
-
-        svg.querySelectorAll("*").forEach((el) => {
-          if (el.getAttribute("fill")) {
-            el.setAttribute("fill", "currentColor");
-          }
-
-          if (el.getAttribute("stroke")) {
-            el.setAttribute("stroke", "currentColor");
-          }
-        });
-      }}
-    />
+    >
+      <SvgElement
+        aria-hidden="true"
+        focusable="false"
+        style={{
+          width: "100%",
+          height: "100%",
+        }}
+      />
+    </span>
   );
 };
 

@@ -1,20 +1,29 @@
-"use client";
+import Link from "next/link";
+import type { Metadata } from "next";
+import { WEB_SITE_URL } from "@/const";
 
-import { useRouter } from "next/navigation";
+export async function generateMetadata(): Promise<Metadata> {
+  return {
+    title: "Page Not Found – Clothing Store",
+    description: "The requested page does not exist.",
+    openGraph: {
+      title: "Page Not Found",
+      description: "The requested page does not exist.",
+      images: "/assets/og-404.png",
+    },
+    alternates: {
+      canonical: `${WEB_SITE_URL}/404`,
+    },
+  };
+}
+
 import { MainLayout } from "@/components/templates/MainLayout";
 import { Heading } from "@/components/atoms/Heading";
-import { Button } from "@/components/atoms/Button";
 import { Icon } from "@/components/atoms/Icon";
 import { ROUTES } from "@/routes/paths";
 import "./not-found.scss";
 
 export default function NotFoundPage() {
-  const router = useRouter();
-
-  const handleGoHome = () => {
-    router.push(ROUTES.HOME);
-  };
-
   return (
     <MainLayout>
       <div className="container u-mt-25">
@@ -52,14 +61,12 @@ export default function NotFoundPage() {
 
             <p className="not-found-page__message">Page not found</p>
 
-            <Button
-              className="not-found-page__action"
-              type="button"
-              variant="primary"
-              onClick={handleGoHome}
+            <Link
+              className="button button--primary not-found-page__action"
+              href={ROUTES.HOME}
             >
               Go back to Home
-            </Button>
+            </Link>
           </div>
         </section>
       </div>

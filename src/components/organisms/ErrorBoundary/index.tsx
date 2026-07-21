@@ -1,3 +1,5 @@
+"use client";
+
 import { logger } from "@/utils/logger";
 import { Component, Fragment } from "react";
 import type { ErrorInfo, ReactNode } from "react";

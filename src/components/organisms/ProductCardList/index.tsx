@@ -1,3 +1,5 @@
+"use client";
+
 import React, { useRef, useCallback } from "react";
 import { ProductCard } from "@/components/molecules/ProductCard";
 import { Skeleton } from "@/components/atoms/Skeleton";
@@ -6,11 +8,12 @@ import { SliderList } from "@/components/molecules/Slider/SliderList";
 import { useInfiniteLoop } from "@/hooks/useInfiniteLoop";
 import type { Product } from "@/types/product";
 import { getTrackGap } from "@/utils/carousel";
+import { formatPrice as defaultFormatPrice } from "@/utils/formatters";
 import "./index.scss";
 
 interface ProductCardListProps {
   products: Product[];
-  formatPrice: (amount: number, currency?: string) => string;
+  formatPrice?: (amount: number, currency?: string) => string;
   showNavigation?: boolean;
   loading?: boolean;
   skeletonCount?: number;
@@ -36,7 +39,7 @@ interface CarouselItem extends Product {
  */
 export const ProductCardList: React.FC<ProductCardListProps> = ({
   products,
-  formatPrice,
+  formatPrice = defaultFormatPrice,
   showNavigation = false,
   loading = false,
   skeletonCount = 4,

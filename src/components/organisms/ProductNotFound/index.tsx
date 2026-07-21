@@ -1,10 +1,7 @@
-"use client";
-
+import Link from "next/link";
 import { Text } from "@/components/atoms/Text";
-import { Button } from "@/components/atoms/Button";
-import "./index.scss";
-import { useRouter } from "next/navigation";
 import { ROUTES } from "@/routes/paths";
+import "./index.scss";
 
 type ProductNotFoundProps = {
   message?: string;
@@ -13,12 +10,6 @@ type ProductNotFoundProps = {
 export const ProductNotFound = ({
   message = "Product not found.",
 }: ProductNotFoundProps) => {
-  const router = useRouter();
-
-  const handleBackHome = () => {
-    router.push(ROUTES.HOME);
-  };
-
   return (
     <div className="container u-mt-25">
       <section
@@ -29,13 +20,12 @@ export const ProductNotFound = ({
           {message}
         </Text>
 
-        <Button
-          variant="primary"
-          className="product-not-found__action"
-          onClick={handleBackHome}
+        <Link
+          className="button button--primary product-not-found__action"
+          href={ROUTES.HOME}
         >
           Back to Home
-        </Button>
+        </Link>
       </section>
     </div>
   );
