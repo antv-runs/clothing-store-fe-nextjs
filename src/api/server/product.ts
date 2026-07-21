@@ -7,18 +7,25 @@ import type { ApiReview } from "@/types/api/review";
 
 const BASE_URL = process.env.API_URL || process.env.NEXT_PUBLIC_API_URL || "https://api.vanannek.blog";
 
-async function serverFetch<T>(endpoint: string, options?: RequestInit): Promise<T> {
+/**
+ * Low-level fetch wrapper for Server Components.
+ *
+ * Error strategy:
+ * - HTTP 404 → returns `null` so callers can decide (notFound() or empty UI).
+ * - HTTP 4xx/5xx, network errors, timeouts → throws so Next.js error.tsx catches.
+ */
+async function serverFetch<T>(endpoint: string, options?: RequestInit): Promise<T | null> {
   const url = `${BASE_URL}${endpoint}`;
   const res = await fetch(url, {
     next: { revalidate: 3600 },
     ...options,
   });
-  
+
   if (!res.ok) {
     if (res.status === 404) {
-      return null as any; // Allow handling 404 gracefully
+      return null;
     }
-    throw new Error(`Server fetch failed: ${res.statusText}`);
+    throw new Error(`Server fetch failed (${res.status}): ${res.statusText}`);
   }
   return res.json();
 }

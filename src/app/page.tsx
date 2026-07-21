@@ -31,8 +31,8 @@ import "./home.scss";
 
 export default async function Home() {
   const [newArrivals, topSelling, reviews] = await Promise.all([
-    getHomeNewArrivals().catch(() => []),
-    getHomeTopSelling().catch(() => []),
+    getHomeNewArrivals(),
+    getHomeTopSelling(),
     getHomeReviews().catch(() => []),
   ]);
 

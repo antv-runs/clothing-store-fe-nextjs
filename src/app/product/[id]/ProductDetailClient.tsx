@@ -1,8 +1,6 @@
 "use client";
 
 import { useCallback, useEffect, useState } from "react";
-import { useParams } from "next/navigation";
-import { MainLayout } from "@/components/templates/MainLayout";
 import { Breadcrumb } from "@/components/organisms/Breadcrumb";
 import { ProductGallery } from "@/components/organisms/ProductGallery";
 import { ProductInfo } from "@/components/organisms/ProductInfo";
@@ -12,9 +10,9 @@ import { ProductTabsSection } from "@/components/organisms/ProductTabsSection";
 import { RelatedProductsSection } from "@/components/organisms/RelatedProductsSection";
 import { WriteReviewModal } from "@/components/organisms/WriteReviewModal";
 import { ErrorBoundary } from "@/components/organisms/ErrorBoundary";
-import { ProductDetailSkeleton } from "@/components/organisms/ProductDetailSkeleton";
+
 import { formatPrice } from "@/utils/formatters";
-import { ProductNotFound } from "@/components/organisms/ProductNotFound";
+
 import { useCartRows } from "@/hooks/useCartRows";
 import { useProductReviews } from "@/hooks/useProductReviews";
 import { useReviewSubmit } from "@/hooks/useReviewSubmit";
@@ -227,7 +225,6 @@ export function ProductDetailClient({
   // Removed isLoading and error checks since they are handled by Next.js Server Components.
 
   return (
-    <MainLayout>
       <div className="container u-mt-25 product-detail-page">
         {/* Product Overview Section */}
         <section className="product-overview">
@@ -358,6 +355,5 @@ export function ProductDetailClient({
           {reviewStatusMessage}
         </div>
       </div>
-    </MainLayout>
   );
 }
