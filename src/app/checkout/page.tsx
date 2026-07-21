@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import CheckoutPageClient from "./CheckoutPageClient";
-import { WEB_SITE_URL } from "@/const";
+
+const WEB_SITE_URL = process.env.NEXT_PUBLIC_APP_URL || "https://clothing-store.vercel.app";
 
 export async function generateMetadata(): Promise<Metadata> {
   return {

@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
-import { WEB_SITE_URL } from "@/const";
+import { MainLayout } from "@/components/templates/MainLayout";
+
+const WEB_SITE_URL = process.env.NEXT_PUBLIC_APP_URL || "https://clothing-store.vercel.app";
 
 export async function generateMetadata(): Promise<Metadata> {
   return {
@@ -15,8 +17,6 @@ export async function generateMetadata(): Promise<Metadata> {
     },
   };
 }
-
-
 import { HomeHero } from "@/components/organisms/HomeHero";
 import { HomeBrands } from "@/components/organisms/HomeBrands";
 import { HomeProductSection } from "@/components/organisms/HomeProductSection";

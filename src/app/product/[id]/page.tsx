@@ -3,6 +3,8 @@ import type { Metadata } from "next";
 import { getServerProductById, getServerRelatedProducts, getServerProductReviews } from "@/api/server/product";
 import { ProductDetailClient } from "./ProductDetailClient";
 
+const WEB_SITE_URL = process.env.NEXT_PUBLIC_APP_URL || "https://clothing-store.vercel.app";
+
 export async function generateMetadata({
   params,
 }: {
@@ -24,6 +26,9 @@ export async function generateMetadata({
       title: product.name,
       description: product.description || "",
       images: [product.thumbnail || ""],
+    },
+    alternates: {
+      canonical: `${WEB_SITE_URL}/product/${product.id}`,
     },
   };
 }
