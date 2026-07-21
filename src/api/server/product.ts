@@ -58,3 +58,24 @@ export async function getServerProductReviews(id: string) {
     lastPage: meta.last_page,
   };
 }
+
+export async function getServerProductsForSitemap() {
+  let allProducts: ReturnType<typeof mapApiProductToProduct>[] = [];
+  let currentPage = 1;
+  let lastPage = 1;
+
+  do {
+    const queryStr = buildQueryString({ page: currentPage, per_page: 50 }).toString();
+    const res = await serverFetch<PaginatedApiResponse<ApiProduct>>(`/api/products?${queryStr}`);
+    if (!res) break;
+
+    const { data: apiProducts, meta } = unwrapPaginatedResponse(res, "Failed to fetch products for sitemap");
+    const products = mapApiProductsToProducts(apiProducts);
+    allProducts = [...allProducts, ...products];
+
+    lastPage = meta.last_page;
+    currentPage++;
+  } while (currentPage <= lastPage);
+
+  return allProducts;
+}

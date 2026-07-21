@@ -1,7 +1,9 @@
 import type { Metadata } from "next";
 import { MainLayout } from "@/components/templates/MainLayout";
 
-const WEB_SITE_URL = process.env.NEXT_PUBLIC_APP_URL || "https://clothing-store.vercel.app";
+import { getSiteUrl } from "@/utils/seo";
+
+const WEB_SITE_URL = getSiteUrl().toString().replace(/\/$/, "");
 
 export async function generateMetadata(): Promise<Metadata> {
   return {
@@ -11,6 +13,14 @@ export async function generateMetadata(): Promise<Metadata> {
       title: "Clothing Store – Home",
       description: "Shop the latest fashion items and discover new collections.",
       images: "/assets/og-home.png",
+      url: "/",
+      type: "website",
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: "Clothing Store – Home",
+      description: "Shop the latest fashion items and discover new collections.",
+      images: ["/assets/og-home.png"],
     },
     alternates: {
       canonical: `${WEB_SITE_URL}/`,

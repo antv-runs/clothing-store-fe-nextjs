@@ -15,6 +15,10 @@ export async function generateMetadata(): Promise<Metadata> {
     alternates: {
       canonical: `${WEB_SITE_URL}/checkout`,
     },
+    robots: {
+      index: false,
+      follow: false,
+    },
   };
 }
 
